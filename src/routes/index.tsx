@@ -6,6 +6,7 @@ import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
 import headshot from "@/assets/headshot.jpg.asset.json";
+import metaAdsResults from "@/assets/meta-ads-results.png.asset.json";
 
 const TITLE = "Ulugbek Kalandarov — Meta Ads & Performance Marketer";
 const DESCRIPTION =
@@ -192,15 +193,14 @@ function Index() {
                     adsmanager.facebook.com — Campaign performance
                   </span>
                 </div>
-                {/* PLACEHOLDER: replace with your Meta Ads Manager screenshot <img> */}
-                <div className="flex aspect-16/9 w-full items-center justify-center bg-surface/60">
-                  <div className="text-center">
-                    <BarChart3 className="mx-auto size-10 text-muted-foreground/50" strokeWidth={1.5} aria-hidden="true" />
-                    <p className="mt-3 text-sm font-medium text-muted-foreground">
-                      Meta Ads Manager screenshot placeholder
-                    </p>
-                  </div>
-                </div>
+                <img
+                  src={metaAdsResults.url}
+                  alt="Meta Ads Manager campaign performance dashboard showing active Instagram campaigns"
+                  width={1920}
+                  height={1080}
+                  loading="lazy"
+                  className="aspect-16/9 w-full object-cover object-top"
+                />
                 <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
                   Meta (Facebook &amp; Instagram) — lead generation and event promotion campaigns run end to end:
                   audience structure, creative testing and ongoing optimization.
