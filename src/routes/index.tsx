@@ -1,24 +1,304 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { BarChart3, Globe2, LineChart, Users } from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { SiteNav } from "@/components/site/nav";
+import { Reveal } from "@/components/site/reveal";
+import { Gallery } from "@/components/site/gallery";
+import { Contact } from "@/components/site/contact";
+
+const TITLE = "Ulugbek Kalandarov — Meta Ads & Performance Marketer";
+const DESCRIPTION =
+  "Performance marketer in Seoul specializing in Meta Ads, B2B growth campaigns and cross-cultural paid media for international clients.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const SERVICES = [
+  {
+    icon: BarChart3,
+    title: "Meta Ads Management",
+    body: "Facebook & Instagram campaign planning, funnel setup, creative testing, daily optimization and clear reporting.",
+  },
+  {
+    icon: Users,
+    title: "B2B Marketing Campaigns",
+    body: "Outbound outreach, partnership development and lead acquisition programs built for long, considered sales cycles.",
+  },
+  {
+    icon: Globe2,
+    title: "Cross-Cultural Digital Marketing",
+    body: "Campaigns adapted — not just translated — across Korean, English, Uzbek and Turkish speaking markets.",
+  },
+  {
+    icon: LineChart,
+    title: "Growth Strategy & Reporting",
+    body: "Data-driven optimization, spend allocation and performance reporting that a decision-maker can actually read.",
+  },
+];
+
+const EXPERIENCE = [
+  {
+    role: "Marketing Assistant",
+    org: "W Korea",
+    period: "Feb 2026 — Present",
+    points: [
+      "Global marketing strategy for MICE, cultural and entertainment events.",
+      "B2B campaigns acquiring international partnerships across the US, Europe and Asia.",
+      "Institutional partnership proposals and sponsorship development.",
+      "Meta Ads execution supporting event and brand campaigns.",
+    ],
+  },
+  {
+    role: "Ads Specialist",
+    org: "Access Consulting",
+    period: "Oct 2024 — Mar 2025",
+    points: [
+      "Planned and optimized Telegram and Meta ad campaigns for an education consulting agency.",
+      "Owned lead acquisition and day-to-day digital advertising performance.",
+    ],
+  },
+];
+
+const SKILLS = [
+  "Meta Ads Manager",
+  "Campaign Optimization",
+  "B2B Outreach",
+  "Sponsorship Development",
+  "Cross-Cultural Communication",
+  "Korean / English / Uzbek / Turkish",
+  "Event Marketing Coordination",
+  "Data-Driven Reporting",
+];
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div id="top" className="min-h-screen bg-background">
+      <SiteNav />
+
+      <main>
+        {/* HERO */}
+        <section className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
+          <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16">
+            <Reveal className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
+              {/* PLACEHOLDER: swap this block for your headshot <img> */}
+              <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface shadow-[var(--shadow-lift)]">
+                <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-center">
+                  <span className="font-display text-5xl font-bold text-muted-foreground/50">UK</span>
+                  <span className="px-6 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                    Headshot placeholder
+                  </span>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={80} className="min-w-0">
+              <p className="eyebrow">Seoul, South Korea · Available for freelance & contract</p>
+              <h1 className="mt-4 text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
+                Ulugbek Kalandarov
+              </h1>
+              <p className="mt-4 max-w-xl font-display text-lg font-medium text-primary sm:text-xl">
+                Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.
+              </p>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+                I plan, launch and optimize paid social campaigns for companies selling into competitive,
+                multilingual markets. My work sits where media buying meets business development — building
+                pipeline, not just impressions.
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href="#contact"
+                  className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
+                >
+                  Get in Touch
+                </a>
+                <a
+                  href="#results"
+                  className="rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+                >
+                  See My Work
+                </a>
+              </div>
+
+              {/* EDITABLE: alternative positioning lines to choose from */}
+              <details className="mt-8 max-w-xl text-sm text-muted-foreground">
+                <summary className="cursor-pointer font-medium text-foreground/70">
+                  Alternative positioning lines (editable — remove when decided)
+                </summary>
+                <ul className="mt-3 list-disc space-y-1.5 pl-5">
+                  <li>Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.</li>
+                  <li>Paid social strategist turning Meta Ads budgets into qualified B2B pipeline.</li>
+                  <li>Meta Ads &amp; growth marketer for brands expanding across Asian and emerging markets.</li>
+                </ul>
+              </details>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* SERVICES */}
+        <section id="services" className="border-t border-border bg-surface py-20 md:py-28">
+          <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <Reveal className="max-w-2xl">
+              <p className="eyebrow">What I do</p>
+              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Paid media built around business outcomes</h2>
+            </Reveal>
+
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {SERVICES.map((s, i) => (
+                <Reveal key={s.title} delay={i * 70} as="article">
+                  <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] transition-transform duration-300 hover:-translate-y-1">
+                    <span className="inline-flex size-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+                      <s.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
+                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* RESULTS */}
+        <section id="results" className="border-t border-border py-20 md:py-28">
+          <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <Reveal className="max-w-2xl">
+              <p className="eyebrow">Proof</p>
+              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Real campaign performance</h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Live reporting straight from Meta Ads Manager — the same dashboards my clients receive.
+              </p>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-12">
+              <figure className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-lift)]">
+                <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
+                  <span className="size-2.5 rounded-full bg-border" />
+                  <span className="size-2.5 rounded-full bg-border" />
+                  <span className="size-2.5 rounded-full bg-border" />
+                  <span className="ml-3 truncate text-xs text-muted-foreground">
+                    adsmanager.facebook.com — Campaign performance
+                  </span>
+                </div>
+                {/* PLACEHOLDER: replace with your Meta Ads Manager screenshot <img> */}
+                <div className="flex aspect-16/9 w-full items-center justify-center bg-surface/60">
+                  <div className="text-center">
+                    <BarChart3 className="mx-auto size-10 text-muted-foreground/50" strokeWidth={1.5} aria-hidden="true" />
+                    <p className="mt-3 text-sm font-medium text-muted-foreground">
+                      Meta Ads Manager screenshot placeholder
+                    </p>
+                  </div>
+                </div>
+                <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+                  Meta (Facebook &amp; Instagram) — lead generation and event promotion campaigns run end to end:
+                  audience structure, creative testing and ongoing optimization.
+                </figcaption>
+              </figure>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* EXPERIENCE */}
+        <section id="experience" className="border-t border-border bg-surface py-20 md:py-28">
+          <div className="mx-auto max-w-4xl px-5 md:px-8">
+            <Reveal>
+              <p className="eyebrow">Experience</p>
+              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Where I&apos;ve worked</h2>
+            </Reveal>
+
+            <ol className="mt-12 border-l border-border">
+              {EXPERIENCE.map((e, i) => (
+                <Reveal key={e.org} delay={i * 80} as="li">
+                  <div className="relative pb-10 pl-6 last:pb-0 md:pl-8">
+                    <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-primary" />
+                    <div className="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-4">
+                      <h3 className="text-lg font-semibold">
+                        {e.role} <span className="text-primary">— {e.org}</span>
+                      </h3>
+                      <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                        {e.period}
+                      </span>
+                    </div>
+                    <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
+                      {e.points.map((p) => (
+                        <li key={p} className="before:mr-2 before:text-primary before:content-['—']">
+                          {p}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+
+            <Reveal className="mt-2">
+              <p className="text-xs text-muted-foreground/80">
+                Also founder of Asia Ballers, a personal sports media project.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        <Gallery />
+
+        {/* SKILLS + EDUCATION */}
+        <section className="border-t border-border py-20 md:py-24">
+          <div className="mx-auto max-w-6xl px-5 md:px-8">
+            <Reveal>
+              <p className="eyebrow">Skills</p>
+              <ul className="mt-6 flex flex-wrap gap-2.5">
+                {SKILLS.map((s) => (
+                  <li
+                    key={s}
+                    className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground"
+                  >
+                    {s}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-14 border-t border-border pt-10">
+              <p className="eyebrow">Education</p>
+              <p className="mt-3 text-base text-foreground">
+                <span className="font-semibold">Inha University</span> — Bachelor&apos;s Degree, International
+                Business and Trade{" "}
+                <span className="text-muted-foreground">(Sep 2023 — Present)</span>
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        <Contact />
+      </main>
+
+      <footer className="border-t border-border bg-surface py-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
+          <p>© {new Date().getFullYear()} Ulugbek Kalandarov</p>
+          <div className="flex gap-5">
+            <a href="mailto:kbulugbek@gmail.com" className="hover:text-primary">Email</a>
+            <a
+              href="https://linkedin.com/in/ulugbek-kalandarov"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-primary"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
