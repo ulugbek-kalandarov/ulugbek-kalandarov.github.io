@@ -103,7 +103,6 @@ export function Contact() {
                 <select id="type" name="type" required defaultValue="Meta Ads Management" className={field}>
                   <option>Meta Ads Management</option>
                   <option>B2B Campaign</option>
-                  <option>Consulting</option>
                   <option>Other</option>
                 </select>
               </div>
