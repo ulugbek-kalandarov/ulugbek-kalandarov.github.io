@@ -78,7 +78,7 @@ const SKILLS = [
   "B2B Outreach",
   "Sponsorship Development",
   "Cross-Cultural Communication",
-  "Korean / English / Uzbek / Turkish",
+  "English / Uzbek / Turkish",
   "Event Marketing Coordination",
   "Data-Driven Reporting",
 ];
