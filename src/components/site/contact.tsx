@@ -1,35 +1,35 @@
 import { useState, type FormEvent } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Reveal } from "./reveal";
+import { submitContact } from "@/lib/contact.functions";
 
 const EMAIL = "kbulugbek@gmail.com";
 
 export function Contact() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const send = useServerFn(submitContact);
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") ?? "").trim().slice(0, 100);
-    const email = String(data.get("email") ?? "").trim().slice(0, 255);
-    const company = String(data.get("company") ?? "").trim().slice(0, 120);
-    const type = String(data.get("type") ?? "").trim();
-    const message = String(data.get("message") ?? "").trim().slice(0, 2000);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setStatus("sending");
 
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      company ? `Company: ${company}` : null,
-      `Project type: ${type}`,
-      "",
-      message,
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(
-      `New enquiry — ${type} — ${name}`,
-    )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    try {
+      await send({
+        data: {
+          name: String(data.get("name") ?? "").trim().slice(0, 100),
+          email: String(data.get("email") ?? "").trim().slice(0, 255),
+          company: String(data.get("company") ?? "").trim().slice(0, 120),
+          type: String(data.get("type") ?? "").trim(),
+          message: String(data.get("message") ?? "").trim().slice(0, 2000),
+        },
+      });
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
   };
 
   const field =
@@ -114,13 +114,20 @@ export function Contact() {
 
             <button
               type="submit"
-              className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep sm:w-auto"
+              disabled={status === "sending"}
+              className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
             >
-              Send message
+              {status === "sending" ? "Sending…" : "Send message"}
             </button>
-            {sent ? (
+            {status === "sent" ? (
               <p className="mt-4 text-sm text-muted-foreground" role="status">
-                Your email app should now be open with the message ready to send. If nothing happened, write to{" "}
+                Thanks — your message has been received. I&apos;ll reply to you shortly. You can also reach me at{" "}
+                <a href={`mailto:${EMAIL}`} className="font-medium text-primary">{EMAIL}</a>.
+              </p>
+            ) : null}
+            {status === "error" ? (
+              <p className="mt-4 text-sm text-destructive" role="alert">
+                Something went wrong sending your message. Please email me directly at{" "}
                 <a href={`mailto:${EMAIL}`} className="font-medium text-primary">{EMAIL}</a>.
               </p>
             ) : null}
