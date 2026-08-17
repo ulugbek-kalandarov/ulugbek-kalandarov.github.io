@@ -5,6 +5,7 @@ import { SiteNav } from "@/components/site/nav";
 import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
+import headshot from "@/assets/headshot.jpg.asset.json";
 
 const TITLE = "Ulugbek Kalandarov — Meta Ads & Performance Marketer";
 const DESCRIPTION =
@@ -91,14 +92,14 @@ function Index() {
         <section className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16">
             <Reveal className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
-              {/* PLACEHOLDER: swap this block for your headshot <img> */}
               <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface shadow-[var(--shadow-lift)]">
-                <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-center">
-                  <span className="font-display text-5xl font-bold text-muted-foreground/50">UK</span>
-                  <span className="px-6 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-                    Headshot placeholder
-                  </span>
-                </div>
+                <img
+                  src={headshot.url}
+                  alt="Portrait of Ulugbek Kalandarov, performance marketer"
+                  width={1200}
+                  height={1200}
+                  className="h-full w-full object-cover object-top"
+                />
               </div>
             </Reveal>
 
