@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./theme-toggle";
 
 const LINKS = [
   { href: "#services", label: "What I Do" },
@@ -49,17 +50,21 @@ export function SiteNav() {
           >
             Get in Touch
           </a>
+          <ThemeToggle />
         </div>
 
-        <button
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
           type="button"
           aria-label="Toggle navigation menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="shrink-0 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground md:hidden"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
+          className="shrink-0 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground"
+          >
+            {open ? "Close" : "Menu"}
+          </button>
+        </div>
       </nav>
 
       {open ? (
