@@ -133,17 +133,6 @@ function Index() {
                 </a>
               </div>
 
-              {/* EDITABLE: alternative positioning lines to choose from */}
-              <details className="mt-8 max-w-xl text-sm text-muted-foreground">
-                <summary className="cursor-pointer font-medium text-foreground/70">
-                  Alternative positioning lines (editable — remove when decided)
-                </summary>
-                <ul className="mt-3 list-disc space-y-1.5 pl-5">
-                  <li>Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.</li>
-                  <li>Paid social strategist turning Meta Ads budgets into qualified B2B pipeline.</li>
-                  <li>Meta Ads &amp; growth marketer for brands expanding across Asian and emerging markets.</li>
-                </ul>
-              </details>
             </Reveal>
           </div>
         </section>
