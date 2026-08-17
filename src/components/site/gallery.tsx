@@ -10,17 +10,17 @@ import indie from "@/assets/indie_bt.webp.asset.json";
 import bjfez from "@/assets/bjfez.webp.asset.json";
 import utah from "@/assets/utah.webp.asset.json";
 
-type Shot = { src: string; caption: string; alt: string };
+type Shot = { src: string; caption: string; alt: string; w: number; h: number };
 
 const PHOTOS: Shot[] = [
-  { src: apollo.url, caption: "Apollo — Korea Private Credit Forum", alt: "Event host with Apollo Korea Private Credit Forum signage in a hotel lobby" },
-  { src: mlb.url, caption: "MLB Breakfast Club Korea", alt: "Staff member in a baseball jersey at the MLB Breakfast Club Korea activation" },
-  { src: jsw.url, caption: "JSW Dulux — Seoul Prestige Club", alt: "Team photo at the JSW Dulux Seoul Prestige Club evening event" },
-  { src: charles.url, caption: "Charles Monat — 55th Anniversary", alt: "Gala ballroom with red carpet and stage screens at the Charles Monat 55th anniversary" },
-  { src: axis.url, caption: "AXIS MAX — Gala Dinner", alt: "Guests at the AXIS MAX Life Insurance gala backdrop in Seoul" },
-  { src: indie.url, caption: "Seoul Indie Beauty Show 2026 (IBS 2026)", alt: "Exhibition floor at the Seoul Indie Beauty Show 2026" },
-  { src: bjfez.url, caption: "BJFEZ Investment Promotion Event", alt: "Investor audience during a BJFEZ investment promotion presentation" },
-  { src: utah.url, caption: "UTAH University — Startup Sprint", alt: "Participants at the University of Utah Asia Campus Startup Sprint" },
+  { src: apollo.url, w: 1279, h: 853, caption: "Apollo — Korea Private Credit Forum", alt: "Event host with Apollo Korea Private Credit Forum signage in a hotel lobby" },
+  { src: mlb.url, w: 1920, h: 1080, caption: "MLB Breakfast Club Korea", alt: "Staff member in a baseball jersey at the MLB Breakfast Club Korea activation" },
+  { src: jsw.url, w: 1920, h: 1080, caption: "JSW Dulux — Seoul Prestige Club", alt: "Team photo at the JSW Dulux Seoul Prestige Club evening event" },
+  { src: charles.url, w: 1872, h: 1245, caption: "Charles Monat — 55th Anniversary", alt: "Gala ballroom with red carpet and stage screens at the Charles Monat 55th anniversary" },
+  { src: axis.url, w: 1440, h: 1920, caption: "AXIS MAX — Gala Dinner", alt: "Guests at the AXIS MAX Life Insurance gala backdrop in Seoul" },
+  { src: indie.url, w: 1080, h: 1920, caption: "Seoul Indie Beauty Show 2026 (IBS 2026)", alt: "Exhibition floor at the Seoul Indie Beauty Show 2026" },
+  { src: bjfez.url, w: 1080, h: 1920, caption: "BJFEZ Investment Promotion Event", alt: "Investor audience during a BJFEZ investment promotion presentation" },
+  { src: utah.url, w: 1080, h: 1920, caption: "UTAH University — Startup Sprint", alt: "Participants at the University of Utah Asia Campus Startup Sprint" },
 ];
 
 export function Gallery() {
@@ -67,8 +67,10 @@ export function Gallery() {
                 <img
                   src={p.src}
                   alt={p.alt}
+                  width={p.w}
+                  height={p.h}
                   loading="lazy"
-                  className="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
                 />
               </div>
               <span className="block px-4 py-3 text-sm font-medium text-foreground">{p.caption}</span>
