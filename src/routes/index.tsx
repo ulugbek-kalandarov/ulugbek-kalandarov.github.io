@@ -40,7 +40,7 @@ const SERVICES = [
   {
     icon: Globe2,
     title: "Cross-Cultural Digital Marketing",
-    body: "Campaigns adapted — not just translated — across Korean, English, Uzbek and Turkish speaking markets.",
+    body: "Campaigns adapted — not just translated — across English,\u00a0Korean, Uzbek and Turkish speaking markets.",
   },
   {
     icon: LineChart,
