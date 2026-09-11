@@ -54,7 +54,7 @@ const EXPERIENCE = [
   {
     role: "Marketing Assistant",
     org: "W Korea",
-    period: "Feb 2026 — Present",
+    period: "FEB 2026 — AUG 2026",
     points: [
       "Global marketing strategy for MICE, cultural and entertainment events.",
       "B2B campaigns acquiring international partnerships across the US, Europe and Asia.",
