@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { BarChart3, Globe2, LineChart, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { BarChart3, Download, Globe2, LineChart, Users, X, ZoomIn } from "lucide-react";
 
 import { SiteNav } from "@/components/site/nav";
 import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
 import headshot from "@/assets/headshot.jpg.asset.json";
-import metaAdsResults from "@/assets/meta-ads-results.png.asset.json";
+import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
 const TITLE = "Ulugbek Kalandarov — Meta Ads & Performance Marketer";
 const DESCRIPTION =
@@ -84,6 +85,24 @@ const SKILLS = [
 ];
 
 function Index() {
+  const [isResultsOpen, setIsResultsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isResultsOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsResultsOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [isResultsOpen]);
+
   return (
     <div id="top" className="min-h-screen bg-background">
       <SiteNav />
@@ -173,29 +192,93 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="mt-12">
-              <figure className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-lift)]">
-                <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
-                  <span className="size-2.5 rounded-full bg-border" />
-                  <span className="size-2.5 rounded-full bg-border" />
-                  <span className="size-2.5 rounded-full bg-border" />
-                  <span className="ml-3 truncate text-xs text-muted-foreground">
-                    adsmanager.facebook.com — Campaign performance
-                  </span>
+              <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(260px,2fr)] lg:gap-10">
+                <div className="w-full max-w-[680px]">
+                  <figure className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-lift)]">
+                    <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
+                      <span className="size-2.5 rounded-full bg-border" />
+                      <span className="size-2.5 rounded-full bg-border" />
+                      <span className="size-2.5 rounded-full bg-border" />
+                      <span className="ml-3 truncate text-xs text-muted-foreground">
+                        adsmanager.facebook.com — Campaign performance
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsResultsOpen(true)}
+                      aria-label="Enlarge Meta Ads campaign performance screenshot"
+                      className="block w-full cursor-zoom-in bg-card"
+                    >
+                      <img
+                        src={campaignsRecords.url}
+                        alt="Meta Ads Manager campaign performance dashboard showing campaign results"
+                        width={1920}
+                        height={880}
+                        loading="lazy"
+                        className="h-auto w-full"
+                      />
+                    </button>
+                    <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
+                      Meta (Facebook &amp; Instagram) — lead generation and event promotion campaigns run end to end:
+                      audience structure, creative testing and ongoing optimization.
+                    </figcaption>
+                  </figure>
+                  <button
+                    type="button"
+                    onClick={() => setIsResultsOpen(true)}
+                    className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <ZoomIn className="size-3.5" aria-hidden="true" />
+                    Click to enlarge
+                  </button>
                 </div>
-                <img
-                  src={metaAdsResults.url}
-                  alt="Meta Ads Manager campaign performance dashboard showing active Instagram campaigns"
-                  width={1920}
-                  height={1080}
-                  loading="lazy"
-                  className="aspect-16/9 w-full object-cover object-top"
-                />
-                <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-                  Meta (Facebook &amp; Instagram) — lead generation and event promotion campaigns run end to end:
-                  audience structure, creative testing and ongoing optimization.
-                </figcaption>
-              </figure>
+
+                <aside className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:p-8">
+                  <p className="eyebrow">Case Study</p>
+                  <h3 className="mt-3 text-2xl font-semibold leading-tight">Meta Ads Campaign — Full Breakdown</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    Strategy, targeting, creatives, results and learnings.
+                  </p>
+                  <a
+                    href="/Ulugbek-Kalandarov-Meta-Ads-Case-Study.docx"
+                    download
+                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
+                  >
+                    <Download className="size-4" aria-hidden="true" />
+                    Download Case Study
+                  </a>
+                  <p className="mt-3 text-xs text-muted-foreground">Microsoft Word document (.docx)</p>
+                </aside>
+              </div>
             </Reveal>
+
+            {isResultsOpen ? (
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="Meta Ads campaign performance screenshot"
+                onClick={() => setIsResultsOpen(false)}
+                className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
+              >
+                <div className="relative w-full max-w-[min(96vw,1600px)]" onClick={(event) => event.stopPropagation()}>
+                  <button
+                    type="button"
+                    onClick={() => setIsResultsOpen(false)}
+                    aria-label="Close enlarged screenshot"
+                    className="absolute -top-12 right-0 inline-flex size-10 items-center justify-center rounded-full border border-background/40 text-background transition-colors hover:bg-background/10"
+                  >
+                    <X className="size-5" aria-hidden="true" />
+                  </button>
+                  <img
+                    src={campaignsRecords.url}
+                    alt="Meta Ads Manager campaign performance dashboard showing campaign results"
+                    width={1920}
+                    height={880}
+                    className="max-h-[85vh] w-full rounded-lg object-contain"
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         </section>
 
