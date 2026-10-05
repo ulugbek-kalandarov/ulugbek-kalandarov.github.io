@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "./reveal";
 
 import apollo from "@/assets/apollo.png.asset.json";
@@ -25,21 +27,29 @@ const PHOTOS: Shot[] = [
 
 export function Gallery() {
   const [active, setActive] = useState<number | null>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const trigger = useRef<HTMLButtonElement | null>(null);
+  const isOpen = active !== null;
 
   useEffect(() => {
-    if (active === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setActive(null);
-      if (e.key === "ArrowRight") setActive((i) => (i === null ? i : (i + 1) % PHOTOS.length));
-      if (e.key === "ArrowLeft") setActive((i) => (i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length));
-    };
-    window.addEventListener("keydown", onKey);
+    if (!isOpen) return;
+    const viewer = dialog.current;
+    if (!viewer) return;
+    viewer.showModal();
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      viewer.close();
+      document.body.style.overflow = previousOverflow;
+      trigger.current?.focus({ preventScroll: true });
     };
-  }, [active]);
+  }, [isOpen]);
+
+  const onKey = (e: React.KeyboardEvent<HTMLDialogElement>) => {
+      if (e.key === "Escape") setActive(null);
+      if (e.key === "ArrowRight") { e.preventDefault(); setActive((i) => (i === null ? i : (i + 1) % PHOTOS.length)); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); setActive((i) => (i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length)); }
+  };
 
   const shot = active === null ? null : PHOTOS[active];
 
@@ -56,11 +66,12 @@ export function Gallery() {
 
         <div className="mt-12 gap-4 [column-fill:_balance] sm:columns-2 lg:columns-3 xl:columns-4">
           {PHOTOS.map((p, i) => (
-            <button
+            <Button variant="ghost"
               key={p.caption}
               type="button"
-              onClick={() => setActive(i)}
-              className="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-border bg-card text-left"
+              onClick={(event) => { trigger.current = event.currentTarget; setActive(i); }}
+              aria-label={`View ${p.caption}`}
+              className="gallery-shot group mb-4 block h-auto w-full break-inside-avoid overflow-hidden whitespace-normal rounded-lg border border-border bg-card p-0 text-left hover:bg-card hover:text-foreground"
             >
               <div className="relative overflow-hidden">
                 <img
@@ -69,37 +80,46 @@ export function Gallery() {
                   width={p.w}
                   height={p.h}
                   loading="lazy"
-                  className="h-auto w-full"
+                  className="gallery-image h-auto w-full"
                 />
+                <span className="gallery-caption absolute inset-x-0 bottom-0 block bg-ink/90 px-4 py-3 text-sm font-medium text-primary-foreground">{p.caption}</span>
               </div>
-              <span className="block px-4 py-3 text-sm font-medium text-foreground">{p.caption}</span>
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       {shot ? (
-        <div
-          role="dialog"
+        <dialog
+          ref={dialog}
           aria-modal="true"
           aria-label={shot.caption}
-          onClick={() => setActive(null)}
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
+          onKeyDown={onKey}
+          onCancel={(event) => { event.preventDefault(); setActive(null); }}
+          onClick={(event) => { if (event.target === event.currentTarget) setActive(null); }}
+          className="gallery-dialog fixed inset-0 z-[80] bg-ink/90 p-4 text-primary-foreground"
         >
-          <figure className="max-h-full w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-            <img src={shot.src} alt={shot.alt} className="mx-auto max-h-[78vh] w-auto rounded-lg object-contain" />
-            <figcaption className="mt-4 flex items-center justify-between gap-4 text-sm text-background">
-              <span className="font-medium">{shot.caption}</span>
-              <button
+          <div className="pointer-events-none flex h-full w-full flex-col items-center justify-center">
+          <figure className="pointer-events-auto flex min-h-0 w-full max-w-[1600px] flex-col items-center">
+            <img src={shot.src} alt={shot.alt} className="mx-auto max-h-[calc(100dvh-160px)] max-w-full rounded-lg object-contain" />
+            <figcaption className="mt-4 max-w-xl text-center text-sm font-medium" aria-live="polite">{shot.caption}</figcaption>
+          </figure>
+          <div className="pointer-events-auto mt-4 flex items-center gap-4">
+            <Button variant="ghost" size="icon" className="size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" aria-label="Previous photo" title="Previous photo" onClick={() => setActive((i) => i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length)}><ArrowLeft /></Button>
+            <span className="min-w-10 text-center text-sm tabular-nums">{(active ?? 0) + 1} / {PHOTOS.length}</span>
+            <Button variant="ghost" size="icon" className="size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" aria-label="Next photo" title="Next photo" onClick={() => setActive((i) => i === null ? i : (i + 1) % PHOTOS.length)}><ArrowRight /></Button>
+          </div>
+          </div>
+              <Button variant="ghost" size="icon"
                 type="button"
                 onClick={() => setActive(null)}
-                className="rounded-[6px] border border-background/40 px-3 py-1 text-xs font-semibold text-background transition-colors hover:bg-background/10"
+                aria-label="Close photo viewer"
+                title="Close"
+                className="absolute right-4 top-4 size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
-                Close
-              </button>
-            </figcaption>
-          </figure>
-        </div>
+                <X />
+              </Button>
+        </dialog>
       ) : null}
     </section>
   );

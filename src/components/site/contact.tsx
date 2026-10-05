@@ -101,7 +101,6 @@ export function Contact() {
               <div className="sm:col-span-2">
                 <label className={label} htmlFor="type">Project type</label>
                 <select id="type" name="type" required className={field}>
-                  <option>Job / internship opportunity</option>
                   <option>Meta Ads Management</option>
                   <option>B2B Campaign</option>
                   <option>Other</option>
