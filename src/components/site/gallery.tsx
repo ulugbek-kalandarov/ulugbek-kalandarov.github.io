@@ -50,8 +50,7 @@ export function Gallery() {
           <p className="eyebrow">Field experience</p>
           <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Trusted at international events</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            On-the-ground delivery for global brands, institutions and forums hosted in Seoul — the same
-            campaigns I plan and promote online.
+            On-site event support for global brands, institutions and forums hosted in Seoul.
           </p>
         </Reveal>
 
