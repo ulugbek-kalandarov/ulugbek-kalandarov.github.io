@@ -180,17 +180,16 @@ function Index() {
               <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Paid media built around business outcomes</h2>
             </Reveal>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid border-t border-border sm:grid-cols-2">
               {SERVICES.map((s, i) => (
-                <Reveal key={s.title} delay={i * 70} as="article">
-                  <div className="h-full rounded-lg border border-border bg-card p-6">
-                    <span className="inline-flex size-11 items-center justify-center rounded-lg bg-accent text-accent-foreground">
-                      <s.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-                  </div>
-                </Reveal>
+                <article
+                  key={s.title}
+                  className={`border-b border-border py-8 sm:px-8 ${i % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"}`}
+                >
+                  <s.icon className="size-5 text-link" strokeWidth={1.75} aria-hidden="true" />
+                  <h3 className="mt-4 text-xl">{s.title}</h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                </article>
               ))}
             </div>
           </div>

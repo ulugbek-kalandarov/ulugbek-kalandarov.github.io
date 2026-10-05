@@ -41,7 +41,7 @@ export function Contact() {
       <div className="mx-auto grid max-w-6xl gap-12 px-5 md:px-8 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal>
           <p className="eyebrow">Contact</p>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Want to grow your business? </h2>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Want to grow your business? </h2>
           <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
             Hiring for a marketing role or need help with paid media? Tell me what you&apos;re looking for and
             I&apos;ll get back to you.
@@ -123,13 +123,13 @@ export function Contact() {
             {status === "sent" ? (
               <p className="mt-4 text-sm text-muted-foreground" role="status">
                 Thanks — your message has been received. I&apos;ll reply to you shortly. You can also reach me at{" "}
-                <a href={`mailto:${EMAIL}`} className="font-medium text-primary">{EMAIL}</a>.
+                <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>.
               </p>
             ) : null}
             {status === "error" ? (
               <p className="mt-4 text-sm text-destructive" role="alert">
                 Something went wrong sending your message. Please email me directly at{" "}
-                <a href={`mailto:${EMAIL}`} className="font-medium text-primary">{EMAIL}</a>.
+                <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>.
               </p>
             ) : null}
           </form>

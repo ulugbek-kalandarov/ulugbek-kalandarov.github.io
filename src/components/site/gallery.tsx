@@ -48,7 +48,7 @@ export function Gallery() {
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="max-w-2xl">
           <p className="eyebrow">Field experience</p>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Trusted at international events</h2>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Trusted at international events</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             On-site event support for global brands, institutions and forums hosted in Seoul.
           </p>
@@ -93,7 +93,7 @@ export function Gallery() {
               <button
                 type="button"
                 onClick={() => setActive(null)}
-                className="rounded-full border border-background/40 px-3 py-1 text-xs font-semibold text-background transition-colors hover:bg-background/10"
+                className="rounded-[6px] border border-background/40 px-3 py-1 text-xs font-semibold text-background transition-colors hover:bg-background/10"
               >
                 Close
               </button>
