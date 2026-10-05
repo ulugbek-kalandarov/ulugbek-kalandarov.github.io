@@ -227,8 +227,8 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="mt-10">
-              <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(260px,2fr)] lg:gap-10">
-                <div className="w-full max-w-[680px]">
+              <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(260px,2fr)] lg:gap-10">
+                <div className="min-w-0 w-full max-w-[680px]">
                   <figure className="overflow-hidden rounded-lg border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
                       <span className="size-2.5 rounded-full bg-border" />
@@ -268,7 +268,7 @@ function Index() {
                   </button>
                 </div>
 
-                <aside className="rounded-lg border border-border bg-card p-6 sm:p-8">
+                <aside className="min-w-0 rounded-lg border border-border bg-card p-6 sm:p-8">
                   <p className="eyebrow">Case Study</p>
                   <h3 className="mt-3 text-2xl font-semibold leading-tight">Meta Ads Campaign — Full Breakdown</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
