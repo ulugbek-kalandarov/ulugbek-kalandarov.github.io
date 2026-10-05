@@ -34,6 +34,12 @@ jobs:
           test -s .output/public/index.html
           cp .output/public/index.html .output/public/404.html
           touch .output/public/.nojekyll
+      - name: Copy images from Lovable
+        run: |
+          grep -rhoE '/__l5e/assets-v1/[A-Za-z0-9_./-]+' .output/public | sort -u | while read p; do
+            mkdir -p ".output/public$(dirname "$p")"
+            curl -sfL "https://ulugbek-kalandarov.lovable.app$p" -o ".output/public$p" || echo "missed $p"
+          done
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
