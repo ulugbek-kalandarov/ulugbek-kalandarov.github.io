@@ -284,7 +284,6 @@ function Index() {
                     Download Case Study
                   </a>
                   <p className="mt-3 text-xs text-muted-foreground">PDF document</p>
-                  <CaseStudySummary />
                 </aside>
               </div>
             </Reveal>
