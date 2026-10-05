@@ -41,10 +41,10 @@ export function Contact() {
       <div className="mx-auto grid max-w-6xl gap-12 px-5 md:px-8 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal>
           <p className="eyebrow">Contact</p>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Want to grow your business?</h2>
+          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Let&apos;s work together</h2>
           <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
-            Tell me about your product, your market and what you want paid media to do. I&apos;ll come back with
-            an honest view on whether I can help and how I&apos;d approach it.
+            Hiring for a marketing role or need help with paid media? Tell me what you&apos;re looking for and
+            I&apos;ll get back to you.
           </p>
 
           <dl className="mt-8 space-y-4 text-sm">
@@ -100,7 +100,8 @@ export function Contact() {
               </div>
               <div className="sm:col-span-2">
                 <label className={label} htmlFor="type">Project type</label>
-                <select id="type" name="type" required defaultValue="Meta Ads Management" className={field}>
+                <select id="type" name="type" required className={field}>
+                  <option>Job / internship opportunity</option>
                   <option>Meta Ads Management</option>
                   <option>B2B Campaign</option>
                   <option>Other</option>

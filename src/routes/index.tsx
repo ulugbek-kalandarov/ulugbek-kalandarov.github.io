@@ -11,7 +11,7 @@ import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
 const TITLE = "Ulugbek Kalandarov — Performance Marketing";
 const DESCRIPTION =
-  "Performance marketer in Seoul specializing in Meta Ads, B2B growth campaigns and cross-cultural paid media for international clients.";
+  "Performance marketer in Seoul specializing in Meta Ads and B2B growth campaigns. Open to full-time, internship, freelance and contract roles.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,7 +42,7 @@ const SERVICES = [
   {
     icon: Globe2,
     title: "Cross-Cultural Digital Marketing",
-    body: "Campaigns adapted — not just translated — across English,\u00a0Korean, Uzbek and Turkish speaking markets.",
+    body: "Campaigns localized for English and Uzbek speaking markets.",
   },
   {
     icon: LineChart,
@@ -77,9 +77,8 @@ const EXPERIENCE = [
 const SKILLS = [
   "Meta Ads Manager",
   "Campaign Optimization",
-  "B2B Outreach",
+  "B2B Partnerships",
   "Sponsorship Development",
-  "Cross-Cultural Communication",
   "English / Uzbek / Turkish",
   "Event Marketing Coordination",
   "Data-Driven Reporting",
@@ -132,7 +131,7 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="min-w-0">
-              <p className="eyebrow">Seoul, South Korea · Available for freelance & contract</p>
+              <p className="eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
               <h1 className="mt-4 text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
                 Ulugbek Kalandarov
               </h1>
