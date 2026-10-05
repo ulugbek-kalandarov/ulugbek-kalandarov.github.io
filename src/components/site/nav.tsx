@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { useReducedMotion } from "./interactions";
 import { ThemeToggle } from "./theme-toggle";
 
 const LINKS = [
@@ -12,21 +14,39 @@ const LINKS = [
 export function SiteNav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
+  const progress = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
+    let frame = 0;
+    const update = () => {
+      setScrolled(window.scrollY > 12);
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      progress.current?.style.setProperty("--scroll-progress", String(reduced ? 1 : height > 0 ? window.scrollY / height : 0));
+      let current = "";
+      for (const link of LINKS) {
+        const section = document.querySelector(link.href);
+        if (section && section.getBoundingClientRect().top <= 120) current = link.href;
+      }
+      if (height > 0 && window.scrollY >= height - 8) current = "#contact";
+      setActive(current);
+    };
+    const onScroll = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    window.addEventListener("resize", onScroll);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
+  }, [reduced]);
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "border-b border-border bg-background/85 backdrop-blur-md" : "border-b border-transparent"
+      className={`fixed inset-x-0 top-0 z-50 ${
+        scrolled ? "border-b border-border bg-background" : "border-b border-transparent"
       }`}
     >
-      <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:flex sm:justify-between md:px-8">
+      <div ref={progress} aria-hidden="true" className="scroll-progress absolute inset-x-0 top-0 h-0.5 bg-primary" />
+      <nav className={`mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:flex sm:justify-between md:px-8 ${scrolled ? "py-2" : "py-4"}`}>
         <a href="#top" className="min-w-0 font-display text-base font-semibold text-foreground">
           Ulugbek Kalandarov
           <span className="ml-2 hidden text-xs font-medium text-muted-foreground sm:inline">
@@ -34,12 +54,13 @@ export function SiteNav() {
           </span>
         </a>
 
-        <div className="hidden items-center gap-7 md:flex">
+        <div className="hidden items-center gap-5 lg:flex">
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-link"
+              aria-current={active === l.href ? "location" : undefined}
+              className={`text-sm font-medium transition-colors hover:text-link ${active === l.href ? "text-link" : "text-muted-foreground"}`}
             >
               {l.label}
             </a>
@@ -53,29 +74,30 @@ export function SiteNav() {
           <ThemeToggle />
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           <ThemeToggle />
-          <button
+          <Button variant="outline"
           type="button"
           aria-label="Toggle navigation menu"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="shrink-0 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground"
+          className="shrink-0 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground shadow-none"
           >
             {open ? "Close" : "Menu"}
-          </button>
+          </Button>
         </div>
       </nav>
 
       {open ? (
-        <div className="border-t border-border bg-background px-5 pb-5 md:hidden">
+        <div className="border-t border-border bg-background px-5 pb-5 lg:hidden">
           <ul className="flex flex-col">
             {[...LINKS, { href: "#contact", label: "Get in Touch" }].map((l) => (
               <li key={l.label}>
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block border-b border-border py-3 text-sm font-medium text-foreground last:border-0"
+                  aria-current={active === l.href ? "location" : undefined}
+                  className={`block border-b border-border py-3 text-sm font-medium transition-colors hover:text-link last:border-0 ${active === l.href ? "text-link" : "text-foreground"}`}
                 >
                   {l.label}
                 </a>
