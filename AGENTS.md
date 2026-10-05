@@ -11,3 +11,4 @@
 
 - Keep portfolio motion in isolated site interaction components and scoped CSS; honor reduced-motion preferences so static sections stay unchanged.
 - Use native dialog and details elements for gallery focus management and case-study disclosure; this preserves keyboard accessibility without extra state libraries.
+- Keep the fixed page background in its own aria-hidden site component with scoped CSS and semantic color tokens; paint section base layers beneath it and content above it to preserve readability without changing base colors.

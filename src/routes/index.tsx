@@ -6,6 +6,7 @@ import { SiteNav } from "@/components/site/nav";
 import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
+import { PageBackground } from "@/components/site/page-background";
 import { BackToTop, BrandStrip, CountUp, ExperienceTimeline } from "@/components/site/interactions";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
@@ -112,7 +113,8 @@ function Index() {
   }, [isResultsOpen]);
 
   return (
-    <div id="top" className="min-h-screen bg-background">
+    <div id="top" className="portfolio-page min-h-screen bg-background">
+      <PageBackground />
       <SiteNav />
 
       <main>
