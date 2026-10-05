@@ -85,6 +85,13 @@ const SKILLS = [
   "Data-Driven Reporting",
 ];
 
+const STATS = [
+  { value: "60+", label: "Event participants" },
+  { value: "10+", label: "Universities reached" },
+  { value: "$0.12", label: "Cost per link click" },
+  { value: "~$1.72", label: "Ad spend per participant" },
+];
+
 function Index() {
   const [isResultsOpen, setIsResultsOpen] = useState(false);
 
@@ -151,6 +158,15 @@ function Index() {
                 >
                   See My Work
                 </a>
+                <a
+                  href="/Ulugbek-Kalandarov-CV.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+                >
+                  <Download className="size-4" aria-hidden="true" />
+                  Download CV
+                </a>
               </div>
 
             </Reveal>
@@ -188,11 +204,28 @@ function Index() {
               <p className="eyebrow">Proof</p>
               <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Real campaign performance</h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Live reporting straight from Meta Ads Manager — the same dashboards my clients receive.
+                Reporting straight from Meta Ads Manager, from a campaign I managed.
               </p>
             </Reveal>
 
-            <Reveal delay={80} className="mt-12">
+            <Reveal delay={40} className="mt-10">
+              <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+                {STATS.map((s) => (
+                  <div
+                    key={s.label}
+                    className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)]"
+                  >
+                    <dd className="text-2xl font-bold sm:text-3xl">{s.value}</dd>
+                    <dt className="mt-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      {s.label}
+                    </dt>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-3 text-xs text-muted-foreground">UAC Startup Sprint · $103 total ad spend</p>
+            </Reveal>
+
+            <Reveal delay={80} className="mt-10">
               <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(260px,2fr)] lg:gap-10">
                 <div className="w-full max-w-[680px]">
                   <figure className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-lift)]">
@@ -220,8 +253,8 @@ function Index() {
                       />
                     </button>
                     <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-                      Meta (Facebook &amp; Instagram) — lead generation and event promotion campaigns run end to end:
-                      audience structure, creative testing and ongoing optimization.
+                      Meta (Facebook &amp; Instagram) — traffic campaigns recruiting participants for a university
+                      startup event: audience targeting, budget management and performance monitoring.
                     </figcaption>
                   </figure>
                   <button
@@ -241,14 +274,15 @@ function Index() {
                     Strategy, targeting, creatives, results and learnings.
                   </p>
                   <a
-                    href="/Ulugbek-Kalandarov-Meta-Ads-Case-Study.docx"
-                    download
+                    href="/Ulugbek-Kalandarov-Meta-Ads-Case-Study.pdf"
+                    target="_blank"
+                    rel="noreferrer"
                     className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
                   >
                     <Download className="size-4" aria-hidden="true" />
                     Download Case Study
                   </a>
-                  <p className="mt-3 text-xs text-muted-foreground">Microsoft Word document (.docx)</p>
+                  <p className="mt-3 text-xs text-muted-foreground">PDF document</p>
                 </aside>
               </div>
             </Reveal>
