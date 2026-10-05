@@ -27,7 +27,7 @@ export function SiteNav() {
       }`}
     >
       <nav className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 py-4 sm:flex sm:justify-between md:px-8">
-        <a href="#top" className="min-w-0 font-display text-sm font-bold tracking-tight text-foreground">
+        <a href="#top" className="min-w-0 font-display text-base font-semibold text-foreground">
           Ulugbek Kalandarov
           <span className="ml-2 hidden text-xs font-medium text-muted-foreground sm:inline">
             Performance Marketing
@@ -39,14 +39,14 @@ export function SiteNav() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-link"
             >
               {l.label}
             </a>
           ))}
           <a
             href="#contact"
-            className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
+            className="rounded-[6px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
           >
             Get in Touch
           </a>

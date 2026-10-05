@@ -48,7 +48,7 @@ export function Gallery() {
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="max-w-2xl">
           <p className="eyebrow">Field experience</p>
-          <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Trusted at international events</h2>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Trusted at international events</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             On-site event support for global brands, institutions and forums hosted in Seoul.
           </p>
@@ -60,7 +60,7 @@ export function Gallery() {
               key={p.caption}
               type="button"
               onClick={() => setActive(i)}
-              className="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-xl border border-border bg-card text-left shadow-[var(--shadow-soft)] transition-transform duration-300 hover:-translate-y-1"
+              className="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-border bg-card text-left"
             >
               <div className="relative overflow-hidden">
                 <img
@@ -69,7 +69,7 @@ export function Gallery() {
                   width={p.w}
                   height={p.h}
                   loading="lazy"
-                  className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="h-auto w-full"
                 />
               </div>
               <span className="block px-4 py-3 text-sm font-medium text-foreground">{p.caption}</span>
@@ -93,7 +93,7 @@ export function Gallery() {
               <button
                 type="button"
                 onClick={() => setActive(null)}
-                className="rounded-full border border-background/40 px-3 py-1 text-xs font-semibold text-background transition-colors hover:bg-background/10"
+                className="rounded-[6px] border border-background/40 px-3 py-1 text-xs font-semibold text-background transition-colors hover:bg-background/10"
               >
                 Close
               </button>

@@ -119,7 +119,7 @@ function Index() {
         <section className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16">
             <Reveal className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
-              <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-border bg-surface shadow-[var(--shadow-lift)]">
+              <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
                 <img
                   src={headshot.url}
                   alt="Portrait of Ulugbek Kalandarov, performance marketer"
@@ -132,10 +132,10 @@ function Index() {
 
             <Reveal delay={80} className="min-w-0">
               <p className="eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
-              <h1 className="mt-4 text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
+              <h1 className="mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
                 Ulugbek Kalandarov
               </h1>
-              <p className="mt-4 max-w-xl font-display text-lg font-medium text-primary sm:text-xl">
+              <p className="mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
                 Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.
               </p>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
@@ -147,13 +147,13 @@ function Index() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#contact"
-                  className="rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
+                  className="rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
                 >
                   Get in Touch
                 </a>
                 <a
                   href="#results"
-                  className="rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+                  className="rounded-[6px] border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
                 >
                   See My Work
                 </a>
@@ -161,7 +161,7 @@ function Index() {
                   href="/Ulugbek-Kalandarov-CV.pdf"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
+                  className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
                 >
                   <Download className="size-4" aria-hidden="true" />
                   Download CV
@@ -177,20 +177,19 @@ function Index() {
           <div className="mx-auto max-w-6xl px-5 md:px-8">
             <Reveal className="max-w-2xl">
               <p className="eyebrow">What I do</p>
-              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Paid media built around business outcomes</h2>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Paid media built around business outcomes</h2>
             </Reveal>
 
-            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid border-t border-border sm:grid-cols-2">
               {SERVICES.map((s, i) => (
-                <Reveal key={s.title} delay={i * 70} as="article">
-                  <div className="h-full rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] transition-transform duration-300 hover:-translate-y-1">
-                    <span className="inline-flex size-11 items-center justify-center rounded-xl bg-accent text-accent-foreground">
-                      <s.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
-                    </span>
-                    <h3 className="mt-5 text-lg font-semibold">{s.title}</h3>
-                    <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-                  </div>
-                </Reveal>
+                <article
+                  key={s.title}
+                  className={`border-b border-border py-8 sm:px-8 ${i % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"}`}
+                >
+                  <s.icon className="size-5 text-link" strokeWidth={1.75} aria-hidden="true" />
+                  <h3 className="mt-4 text-xl">{s.title}</h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                </article>
               ))}
             </div>
           </div>
@@ -201,7 +200,7 @@ function Index() {
           <div className="mx-auto max-w-6xl px-5 md:px-8">
             <Reveal className="max-w-2xl">
               <p className="eyebrow">Proof</p>
-              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Real campaign performance</h2>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Real campaign performance</h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 Reporting straight from Meta Ads Manager, from a campaign I managed.
               </p>
@@ -212,10 +211,10 @@ function Index() {
                 {STATS.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-soft)]"
+                    className="rounded-lg border border-border bg-card p-5"
                   >
-                    <dd className="text-2xl font-bold sm:text-3xl">{s.value}</dd>
-                    <dt className="mt-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                    <dd className="font-display text-2xl font-semibold sm:text-3xl">{s.value}</dd>
+                    <dt className="mt-1.5 text-xs font-medium text-muted-foreground">
                       {s.label}
                     </dt>
                   </div>
@@ -227,7 +226,7 @@ function Index() {
             <Reveal delay={80} className="mt-10">
               <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(260px,2fr)] lg:gap-10">
                 <div className="w-full max-w-[680px]">
-                  <figure className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-lift)]">
+                  <figure className="overflow-hidden rounded-lg border border-border bg-card">
                     <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
                       <span className="size-2.5 rounded-full bg-border" />
                       <span className="size-2.5 rounded-full bg-border" />
@@ -266,7 +265,7 @@ function Index() {
                   </button>
                 </div>
 
-                <aside className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:p-8">
+                <aside className="rounded-lg border border-border bg-card p-6 sm:p-8">
                   <p className="eyebrow">Case Study</p>
                   <h3 className="mt-3 text-2xl font-semibold leading-tight">Meta Ads Campaign — Full Breakdown</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -276,7 +275,7 @@ function Index() {
                     href="/Ulugbek-Kalandarov-Meta-Ads-Case-Study.pdf"
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
+                    className="mt-6 inline-flex items-center gap-2 rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
                   >
                     <Download className="size-4" aria-hidden="true" />
                     Download Case Study
@@ -321,25 +320,25 @@ function Index() {
           <div className="mx-auto max-w-4xl px-5 md:px-8">
             <Reveal>
               <p className="eyebrow">Experience</p>
-              <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Where I&apos;ve worked</h2>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Where I&apos;ve worked</h2>
             </Reveal>
 
             <ol className="mt-12 border-l border-border">
               {EXPERIENCE.map((e, i) => (
                 <Reveal key={e.org} delay={i * 80} as="li">
                   <div className="relative pb-10 pl-6 last:pb-0 md:pl-8">
-                    <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-primary" />
+                    <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-[6px] bg-primary" />
                     <div className="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-4">
                       <h3 className="text-lg font-semibold">
-                        {e.role} <span className="text-primary">— {e.org}</span>
+                        {e.role} <span className="text-link">— {e.org}</span>
                       </h3>
-                      <span className="shrink-0 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                      <span className="shrink-0 text-xs font-medium text-muted-foreground">
                         {e.period}
                       </span>
                     </div>
                     <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
                       {e.points.map((p) => (
-                        <li key={p} className="before:mr-2 before:text-primary before:content-['—']">
+                        <li key={p} className="before:mr-2 before:text-link before:content-['—']">
                           {p}
                         </li>
                       ))}
@@ -368,7 +367,7 @@ function Index() {
                 {SKILLS.map((s) => (
                   <li
                     key={s}
-                    className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-foreground"
+                    className="rounded-[6px] border border-border bg-card px-4 py-2 text-sm font-medium text-foreground"
                   >
                     {s}
                   </li>
@@ -394,12 +393,12 @@ function Index() {
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
           <p>© {new Date().getFullYear()} Ulugbek Kalandarov</p>
           <div className="flex gap-5">
-            <a href="mailto:kbulugbek@gmail.com" className="hover:text-primary">Email</a>
+            <a href="mailto:kbulugbek@gmail.com" className="hover:text-link">Email</a>
             <a
               href="https://linkedin.com/in/ulugbek-kalandarov"
               target="_blank"
               rel="noreferrer"
-              className="hover:text-primary"
+              className="hover:text-link"
             >
               LinkedIn
             </a>
