@@ -34,7 +34,7 @@ export function Contact() {
 
   const field =
     "w-full rounded-md border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring/25";
-  const label = "mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground";
+  const label = "mb-1.5 block text-xs font-semibold text-muted-foreground";
 
   return (
     <section id="contact" className="border-t border-border py-20 md:py-28">
@@ -51,7 +51,7 @@ export function Contact() {
             <div>
               <dt className={label}>Email</dt>
               <dd>
-                <a href={`mailto:${EMAIL}`} className="font-medium text-foreground hover:text-primary">
+                <a href={`mailto:${EMAIL}`} className="font-medium text-foreground hover:text-link">
                   {EMAIL}
                 </a>
               </dd>
@@ -59,7 +59,7 @@ export function Contact() {
             <div>
               <dt className={label}>Phone</dt>
               <dd>
-                <a href="tel:+821027121929" className="font-medium text-foreground hover:text-primary">
+                <a href="tel:+821027121929" className="font-medium text-foreground hover:text-link">
                   +82-10-2712-1929
                 </a>
               </dd>
@@ -71,7 +71,7 @@ export function Contact() {
                   href="https://linkedin.com/in/ulugbek-kalandarov"
                   target="_blank"
                   rel="noreferrer"
-                  className="font-medium text-foreground hover:text-primary"
+                  className="font-medium text-foreground hover:text-link"
                 >
                   linkedin.com/in/ulugbek-kalandarov
                 </a>
@@ -83,7 +83,7 @@ export function Contact() {
         <Reveal delay={90}>
           <form
             onSubmit={onSubmit}
-            className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] sm:p-8"
+            className="rounded-lg border border-border bg-card p-6 sm:p-8"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
@@ -116,7 +116,7 @@ export function Contact() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="mt-6 w-full rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
+              className="mt-6 w-full rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
             >
               {status === "sending" ? "Sending…" : "Send message"}
             </button>

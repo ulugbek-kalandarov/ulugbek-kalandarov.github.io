@@ -60,7 +60,7 @@ export function Gallery() {
               key={p.caption}
               type="button"
               onClick={() => setActive(i)}
-              className="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-xl border border-border bg-card text-left shadow-[var(--shadow-soft)] transition-transform duration-300 hover:-translate-y-1"
+              className="group mb-4 block w-full break-inside-avoid overflow-hidden rounded-lg border border-border bg-card text-left"
             >
               <div className="relative overflow-hidden">
                 <img
@@ -69,7 +69,7 @@ export function Gallery() {
                   width={p.w}
                   height={p.h}
                   loading="lazy"
-                  className="h-auto w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="h-auto w-full"
                 />
               </div>
               <span className="block px-4 py-3 text-sm font-medium text-foreground">{p.caption}</span>
