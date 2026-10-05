@@ -85,6 +85,13 @@ const SKILLS = [
   "Data-Driven Reporting",
 ];
 
+const STATS = [
+  { value: "60+", label: "Event participants" },
+  { value: "10+", label: "Universities reached" },
+  { value: "$0.12", label: "Cost per link click" },
+  { value: "~$1.72", label: "Ad spend per participant" },
+];
+
 function Index() {
   const [isResultsOpen, setIsResultsOpen] = useState(false);
 
