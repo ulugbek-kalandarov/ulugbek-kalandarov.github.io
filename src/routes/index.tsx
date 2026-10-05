@@ -6,7 +6,7 @@ import { SiteNav } from "@/components/site/nav";
 import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
-import { BackToTop, BrandStrip, CaseStudySummary, CountUp, ExperienceTimeline } from "@/components/site/interactions";
+import { BackToTop, BrandStrip, CountUp, ExperienceTimeline } from "@/components/site/interactions";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
@@ -284,7 +284,6 @@ function Index() {
                     Download Case Study
                   </a>
                   <p className="mt-3 text-xs text-muted-foreground">PDF document</p>
-                  <CaseStudySummary />
                 </aside>
               </div>
             </Reveal>
