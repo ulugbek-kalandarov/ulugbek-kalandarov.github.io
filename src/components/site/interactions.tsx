@@ -94,25 +94,6 @@ export function ExperienceTimeline({ children }: { children: ReactNode }) {
   return <ol ref={ref} className="experience-timeline relative mt-12 border-l border-border">{children}</ol>;
 }
 
-export function CaseStudySummary() {
-  return (
-    <details className="case-summary mt-6 border-t border-border pt-4">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-link">
-        Case study summary <ChevronDown className="size-4 shrink-0" aria-hidden="true" />
-      </summary>
-      <div className="mt-3">
-        {["Challenge", "Approach", "Results", "Key insights"].map((title) => (
-          <details key={title} className="summary-part border-t border-border py-3">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium">
-              {title}<ChevronDown className="size-4 shrink-0" aria-hidden="true" />
-            </summary>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">[Add {title.toLowerCase()} here.]</p>
-          </details>
-        ))}
-      </div>
-    </details>
-  );
-}
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
