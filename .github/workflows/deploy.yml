@@ -18,14 +18,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NITRO_PRESET: github_pages
+      NITRO_PRESET: node-server
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bun run build
-      - name: Check static output exists
-        run: ls -la .output/public && test -f .output/public/index.html
+      - name: Render homepage to static HTML
+        run: |
+          PORT=3000 node .output/server/index.mjs &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000/ -o .output/public/index.html && break
+            sleep 1
+          done
+          test -s .output/public/index.html
+          cp .output/public/index.html .output/public/404.html
+          touch .output/public/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
