@@ -9,7 +9,7 @@ import { Contact } from "@/components/site/contact";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
-const TITLE = "Ulugbek Kalandarov — Meta Ads & Performance Marketer";
+const TITLE = "Ulugbek Kalandarov — Performance Marketing";
 const DESCRIPTION =
   "Performance marketer in Seoul specializing in Meta Ads, B2B growth campaigns and cross-cultural paid media for international clients.";
 
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
     ],
   }),
   component: Index,
