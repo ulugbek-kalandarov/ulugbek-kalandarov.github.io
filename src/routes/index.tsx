@@ -6,6 +6,7 @@ import { SiteNav } from "@/components/site/nav";
 import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
+import { BackToTop, BrandStrip, CaseStudySummary, CountUp, ExperienceTimeline } from "@/components/site/interactions";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
@@ -116,9 +117,9 @@ function Index() {
 
       <main>
         {/* HERO */}
-        <section className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
+        <section id="hero" className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16">
-            <Reveal className="mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
+            <Reveal className="hero-photo mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
               <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
                 <img
                   src={headshot.url}
@@ -132,10 +133,10 @@ function Index() {
 
             <Reveal delay={80} className="min-w-0">
               <p className="eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
-              <h1 className="mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
+              <h1 className="hero-name mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
                 Ulugbek Kalandarov
               </h1>
-              <p className="mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
+              <p className="hero-subtitle mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
                 Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.
               </p>
               <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
@@ -144,7 +145,7 @@ function Index() {
                 pipeline, not just impressions.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="hero-buttons mt-8 flex flex-wrap gap-3">
                 <a
                   href="#contact"
                   className="rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
@@ -171,6 +172,8 @@ function Index() {
             </Reveal>
           </div>
         </section>
+
+        <BrandStrip />
 
         {/* SERVICES */}
         <section id="services" className="border-t border-border bg-surface py-20 md:py-28">
@@ -213,7 +216,7 @@ function Index() {
                     key={s.label}
                     className="rounded-lg border border-border bg-card p-5"
                   >
-                    <dd className="font-display text-2xl font-semibold sm:text-3xl">{s.value}</dd>
+                    <dd className="font-display text-2xl font-semibold sm:text-3xl"><CountUp value={s.value} /></dd>
                     <dt className="mt-1.5 text-xs font-medium text-muted-foreground">
                       {s.label}
                     </dt>
@@ -281,6 +284,7 @@ function Index() {
                     Download Case Study
                   </a>
                   <p className="mt-3 text-xs text-muted-foreground">PDF document</p>
+                  <CaseStudySummary />
                 </aside>
               </div>
             </Reveal>
@@ -323,11 +327,11 @@ function Index() {
               <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Where I&apos;ve worked</h2>
             </Reveal>
 
-            <ol className="mt-12 border-l border-border">
+            <ExperienceTimeline>
               {EXPERIENCE.map((e, i) => (
                 <Reveal key={e.org} delay={i * 80} as="li">
                   <div className="relative pb-10 pl-6 last:pb-0 md:pl-8">
-                    <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-[6px] bg-primary" />
+                    <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-primary" />
                     <div className="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-4">
                       <h3 className="text-lg font-semibold">
                         {e.role} <span className="text-link">— {e.org}</span>
@@ -346,7 +350,7 @@ function Index() {
                   </div>
                 </Reveal>
               ))}
-            </ol>
+            </ExperienceTimeline>
 
             <Reveal className="mt-2">
               <p className="text-xs text-muted-foreground/80">
@@ -405,6 +409,7 @@ function Index() {
           </div>
         </div>
       </footer>
+      <BackToTop />
     </div>
   );
 }

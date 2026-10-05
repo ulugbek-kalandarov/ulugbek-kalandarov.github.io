@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep portfolio motion in isolated site interaction components and scoped CSS; honor reduced-motion preferences so static sections stay unchanged.
+- Use native dialog and details elements for gallery focus management and case-study disclosure; this preserves keyboard accessibility without extra state libraries.

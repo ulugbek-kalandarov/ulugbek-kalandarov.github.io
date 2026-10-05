@@ -180,3 +180,43 @@
   letter-spacing: normal;
   color: var(--link);
 }
+
+@keyframes hero-entrance { from { opacity: 0; } to { opacity: 1; } }
+.hero-photo { animation: hero-entrance 0.24s ease-out both; }
+.hero-name { animation: hero-entrance 0.24s ease-out 0.12s both; }
+.hero-subtitle { animation: hero-entrance 0.24s ease-out 0.24s both; }
+.hero-buttons { animation: hero-entrance 0.24s ease-out 0.36s both; }
+@keyframes brand-scroll { to { transform: translateX(-50%); } }
+.brand-track { animation: brand-scroll 48s linear infinite; }
+.brand-strip:hover .brand-track, .brand-strip:focus-within .brand-track { animation-play-state: paused; }
+.experience-timeline::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--primary);
+  transform-origin: top;
+  transform: scaleY(var(--timeline-progress, 0));
+}
+.scroll-progress { transform-origin: left; transform: scaleX(var(--scroll-progress, 0)); }
+.gallery-image { transition: transform 250ms ease; }
+.gallery-caption { transition: transform 250ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  .gallery-caption { transform: translateY(100%); }
+  .gallery-shot:hover .gallery-image, .gallery-shot:focus-visible .gallery-image { transform: scale(1.035); }
+  .gallery-shot:hover .gallery-caption, .gallery-shot:focus-visible .gallery-caption { transform: translateY(0); }
+}
+.gallery-dialog { width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; }
+.gallery-dialog::backdrop { background: var(--ink); }
+.case-summary[open] > summary > svg, .summary-part[open] > summary > svg { transform: rotate(180deg); }
+summary::-webkit-details-marker { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .brand-track { width: 100%; transform: none; }
+  .brand-original { flex-wrap: wrap; gap: 1rem 2rem; padding-right: 0; }
+  .brand-copy { display: none; }
+  .gallery-caption, .gallery-shot:hover .gallery-image, .gallery-shot:focus-visible .gallery-image { transform: none; }
+}
