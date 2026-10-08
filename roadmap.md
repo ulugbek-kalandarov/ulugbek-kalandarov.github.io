@@ -10,4 +10,4 @@
 # Page background
 - [x] Add fixed faint edge-fading dots and slow CSS blue/navy shapes behind content
 - [x] Preserve section base colors and disable background motion on mobile and reduced motion
-- [ ] Verify layering, desktop motion, static mobile/reduced motion, and page errors
+- [x] Verify layering, desktop motion, static mobile/reduced motion, and page errors
