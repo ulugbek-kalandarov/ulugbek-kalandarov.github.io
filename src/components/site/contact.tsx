@@ -1,30 +1,37 @@
 import { useState, type FormEvent } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { Reveal } from "./reveal";
-import { submitContact } from "@/lib/contact.functions";
 
 const EMAIL = "kbulugbek@gmail.com";
+const WEB3FORMS_KEY = "3c6dbbaf-5947-469b-91bf-793165cbcf30";
 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const send = useServerFn(submitContact);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
+    const name = String(data.get("name") ?? "").trim().slice(0, 100);
     setStatus("sending");
 
     try {
-      await send({
-        data: {
-          name: String(data.get("name") ?? "").trim().slice(0, 100),
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: "New portfolio message from " + name,
+          from_name: "Portfolio contact form",
+          name,
           email: String(data.get("email") ?? "").trim().slice(0, 255),
           company: String(data.get("company") ?? "").trim().slice(0, 120),
-          type: String(data.get("type") ?? "").trim(),
+          project_type: String(data.get("type") ?? "").trim(),
           message: String(data.get("message") ?? "").trim().slice(0, 2000),
-        },
+          botcheck: data.get("botcheck") ? "on" : "",
+        }),
       });
+      const json = await res.json().catch(() => null);
+      if (!json || json.success !== true) throw new Error("failed");
       form.reset();
       setStatus("sent");
     } catch {
@@ -85,6 +92,7 @@ export function Contact() {
             onSubmit={onSubmit}
             className="rounded-lg border border-border bg-card p-6 sm:p-8"
           >
+            <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
                 <label className={label} htmlFor="name">Name</label>
