@@ -112,8 +112,7 @@ export function Contact() {
                 {firstName ? `Thank you, ${firstName}.` : "Thank you."}
               </h3>
               <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                Your message has been received. I appreciate you reaching out and will reply within two business
-                days.
+                Your message has been received. I appreciate you reaching out and will reply as soon as possible.
               </p>
               <p className="mt-4 text-sm text-muted-foreground">
                 For anything urgent, you can email me directly at{" "}
