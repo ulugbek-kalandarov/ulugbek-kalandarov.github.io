@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-/** Static wrapper (scroll animations intentionally removed for a formal look). */
+/** Layout wrapper; scroll reveals are applied by SectionReveals. */
 export function Reveal({
   children,
   className = "",
