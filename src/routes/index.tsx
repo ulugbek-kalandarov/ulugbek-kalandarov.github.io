@@ -7,7 +7,7 @@ import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
 import { PageBackground } from "@/components/site/page-background";
-import { BackToTop, BrandStrip, CountUp, ExperienceTimeline } from "@/components/site/interactions";
+import { BackToTop, BrandStrip, CountUp, ExperienceTimeline, HeroParallax, SectionReveals } from "@/components/site/interactions";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
@@ -122,7 +122,7 @@ function Index() {
         <section id="hero" className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16">
             <Reveal className="hero-photo mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
-              <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
+              <div data-parallax className="hero-parallax relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
                 <img
                   src={headshot.url}
                   alt="Portrait of Ulugbek Kalandarov, performance marketer"
@@ -134,20 +134,20 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="min-w-0">
-              <p className="eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
-              <h1 className="hero-name mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
+              <p className="hero-step hero-step-0 eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
+              <h1 className="hero-step hero-step-1 mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
                 Ulugbek Kalandarov
               </h1>
-              <p className="hero-subtitle mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
+              <p className="hero-step hero-step-2 mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
                 Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.
               </p>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              <p className="hero-step hero-step-3 mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
                 I plan, launch and optimize paid social campaigns for companies selling into competitive,
                 multilingual markets. My work sits where media buying meets business development — building
                 pipeline, not just impressions.
               </p>
 
-              <div className="hero-buttons mt-8 flex flex-wrap gap-3">
+              <div className="hero-step hero-step-4 mt-8 flex flex-wrap gap-3">
                 <a
                   href="#contact"
                   className="rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
@@ -368,7 +368,7 @@ function Index() {
           <div className="mx-auto max-w-6xl px-5 md:px-8">
             <Reveal>
               <p className="eyebrow">Skills</p>
-              <ul className="mt-6 flex flex-wrap gap-2.5">
+              <ul data-skills className="mt-6 flex flex-wrap gap-2.5">
                 {SKILLS.map((s) => (
                   <li
                     key={s}
@@ -411,6 +411,8 @@ function Index() {
         </div>
       </footer>
       <BackToTop />
+      <SectionReveals />
+      <HeroParallax />
     </div>
   );
 }

@@ -17,6 +17,30 @@ export function SiteNav() {
   const [active, setActive] = useState("");
   const progress = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const header = useRef<HTMLElement>(null);
+  const linksBox = useRef<HTMLDivElement>(null);
+  const [bar, setBar] = useState({ x: 0, w: 0, show: false });
+
+  useEffect(() => {
+    const place = () => {
+      const link = linksBox.current?.querySelector<HTMLElement>(`a[data-nav="${active}"]`);
+      setBar(link ? { x: link.offsetLeft, w: link.offsetWidth, show: true } : (b) => ({ ...b, show: false }));
+    };
+    place();
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [active, scrolled]);
+
+  const goTo = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    const target = document.querySelector<HTMLElement>(href);
+    if (!target) return;
+    event.preventDefault();
+    setOpen(false);
+    const offset = 64; // compact header height plus a small gap
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
+    history.replaceState(null, "", href);
+  };
 
   useEffect(() => {
     let frame = 0;
@@ -41,6 +65,7 @@ export function SiteNav() {
 
   return (
     <header
+      ref={header}
       className={`fixed inset-x-0 top-0 z-50 ${
         scrolled ? "border-b border-border bg-background" : "border-b border-transparent"
       }`}
@@ -54,19 +79,27 @@ export function SiteNav() {
           </span>
         </a>
 
-        <div className="hidden items-center gap-5 lg:flex">
+        <div ref={linksBox} className="relative hidden items-center gap-5 lg:flex">
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
+              data-nav={l.href}
+              onClick={(e) => goTo(e, l.href)}
               aria-current={active === l.href ? "location" : undefined}
               className={`text-sm font-medium transition-colors hover:text-link ${active === l.href ? "text-link" : "text-muted-foreground"}`}
             >
               {l.label}
             </a>
           ))}
+          <span
+            aria-hidden="true"
+            className="nav-underline pointer-events-none absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-link"
+            style={{ width: bar.w, transform: `translateX(${bar.x}px)`, opacity: bar.show ? 1 : 0 }}
+          />
           <a
             href="#contact"
+            onClick={(e) => goTo(e, "#contact")}
             className="rounded-[6px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
           >
             Get in Touch
@@ -95,7 +128,7 @@ export function SiteNav() {
               <li key={l.label}>
                 <a
                   href={l.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => goTo(e, l.href)}
                   aria-current={active === l.href ? "location" : undefined}
                   className={`block border-b border-border py-3 text-sm font-medium transition-colors hover:text-link last:border-0 ${active === l.href ? "text-link" : "text-foreground"}`}
                 >
