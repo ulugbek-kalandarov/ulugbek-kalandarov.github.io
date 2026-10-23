@@ -122,7 +122,7 @@ function Index() {
         <section id="hero" className="px-5 pb-20 pt-32 md:px-8 md:pb-28 md:pt-40">
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-16">
             <Reveal className="hero-photo mx-auto w-full max-w-[280px] lg:mx-0 lg:max-w-none">
-              <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
+              <div data-parallax className="hero-parallax relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
                 <img
                   src={headshot.url}
                   alt="Portrait of Ulugbek Kalandarov, performance marketer"
@@ -134,8 +134,9 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="min-w-0">
-              <p className="eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
-              <h1 className="hero-name mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
+              <p className="hero-step eyebrow" style={{ "--i": 0 } as React.CSSProperties}>Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
+              <h1 className="hero-step hero-name mt-4" style={{ "--i": 1 } as React.CSSProperties} 
+                data-hero="name" data-cls="text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
                 Ulugbek Kalandarov
               </h1>
               <p className="hero-subtitle mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
