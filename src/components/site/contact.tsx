@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const EMAIL = "kbulugbek@gmail.com";
@@ -6,6 +7,12 @@ const WEB3FORMS_KEY = "3c6dbbaf-5947-469b-91bf-793165cbcf30";
 
 export function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [firstName, setFirstName] = useState("");
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    if (status === "sent") headingRef.current?.focus();
+  }, [status]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,11 +39,17 @@ export function Contact() {
       });
       const json = await res.json().catch(() => null);
       if (!json || json.success !== true) throw new Error("failed");
+      setFirstName(name.split(/\s+/)[0] ?? "");
       form.reset();
       setStatus("sent");
     } catch {
       setStatus("error");
     }
+  };
+
+  const sendAnother = () => {
+    setFirstName("");
+    setStatus("idle");
   };
 
   const field =
@@ -88,58 +101,83 @@ export function Contact() {
         </Reveal>
 
         <Reveal delay={90}>
-          <form
-            onSubmit={onSubmit}
-            className="rounded-lg border border-border bg-card p-6 sm:p-8"
-          >
-            <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
-                <label className={label} htmlFor="name">Name</label>
-                <input id="name" name="name" required maxLength={100} className={field} placeholder="Your name" />
-              </div>
-              <div>
-                <label className={label} htmlFor="email">Email</label>
-                <input id="email" name="email" type="email" required maxLength={255} className={field} placeholder="you@company.com" />
-              </div>
-              <div className="sm:col-span-2">
-                <label className={label} htmlFor="company">Company <span className="normal-case">(optional)</span></label>
-                <input id="company" name="company" maxLength={120} className={field} placeholder="Company name" />
-              </div>
-              <div className="sm:col-span-2">
-                <label className={label} htmlFor="type">Project type</label>
-                <select id="type" name="type" required className={field}>
-                  <option>Meta Ads Management</option>
-                  <option>B2B Campaign</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div className="sm:col-span-2">
-                <label className={label} htmlFor="message">Message</label>
-                <textarea id="message" name="message" required rows={5} maxLength={2000} className={field} placeholder="What are you trying to achieve?" />
-              </div>
+          {status === "sent" ? (
+            <div className="rounded-lg border border-border bg-card p-6 sm:p-8">
+              <Check className="h-6 w-6 text-link" aria-hidden="true" />
+              <h3
+                ref={headingRef}
+                tabIndex={-1}
+                className="mt-4 text-2xl font-semibold text-foreground outline-none focus:outline-none"
+              >
+                {firstName ? `Thank you, ${firstName}.` : "Thank you."}
+              </h3>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                Your message has been received. I appreciate you reaching out and will reply within two business
+                days.
+              </p>
+              <p className="mt-4 text-sm text-muted-foreground">
+                For anything urgent, you can email me directly at{" "}
+                <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">
+                  {EMAIL}
+                </a>
+                .
+              </p>
+              <button
+                type="button"
+                onClick={sendAnother}
+                className="mt-6 rounded-[6px] border border-border bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
+              >
+                Send another message
+              </button>
             </div>
-
-            <button
-              type="submit"
-              disabled={status === "sending"}
-              className="mt-6 w-full rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
+          ) : (
+            <form
+              onSubmit={onSubmit}
+              className="rounded-lg border border-border bg-card p-6 sm:p-8"
             >
-              {status === "sending" ? "Sending…" : "Send message"}
-            </button>
-            {status === "sent" ? (
-              <p className="mt-4 text-sm text-muted-foreground" role="status">
-                Thanks — your message has been received. I&apos;ll reply to you shortly. You can also reach me at{" "}
-                <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>.
-              </p>
-            ) : null}
-            {status === "error" ? (
-              <p className="mt-4 text-sm text-destructive" role="alert">
-                Something went wrong sending your message. Please email me directly at{" "}
-                <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>.
-              </p>
-            ) : null}
-          </form>
+              <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label className={label} htmlFor="name">Name</label>
+                  <input id="name" name="name" required maxLength={100} className={field} placeholder="Your name" />
+                </div>
+                <div>
+                  <label className={label} htmlFor="email">Email</label>
+                  <input id="email" name="email" type="email" required maxLength={255} className={field} placeholder="you@company.com" />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={label} htmlFor="company">Company <span className="normal-case">(optional)</span></label>
+                  <input id="company" name="company" maxLength={120} className={field} placeholder="Company name" />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={label} htmlFor="type">Project type</label>
+                  <select id="type" name="type" required className={field}>
+                    <option>Meta Ads Management</option>
+                    <option>B2B Campaign</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div className="sm:col-span-2">
+                  <label className={label} htmlFor="message">Message</label>
+                  <textarea id="message" name="message" required rows={5} maxLength={2000} className={field} placeholder="What are you trying to achieve?" />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="mt-6 w-full rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
+              >
+                {status === "sending" ? "Sending…" : "Send message"}
+              </button>
+              {status === "error" ? (
+                <p className="mt-4 text-sm text-destructive" role="alert">
+                  Something went wrong sending your message. Please email me directly at{" "}
+                  <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>.
+                </p>
+              ) : null}
+            </form>
+          )}
         </Reveal>
       </div>
     </section>
