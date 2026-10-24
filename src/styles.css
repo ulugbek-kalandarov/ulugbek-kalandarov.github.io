@@ -326,7 +326,8 @@ summary::-webkit-details-marker { display: none; }
 .check-short { transform-origin: 4px 12px; animation: check-draw 150ms ease-out both; }
 .check-long { transform-origin: 9px 17px; animation: check-draw 250ms 150ms ease-out both; }
 @keyframes check-draw { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.portfolio-page :is(button, a.rounded-\[6px\]):not(.gallery-shot) { position: relative; transition: transform 160ms ease-out; }
+.portfolio-page :is(button, a.rounded-\[6px\]):not(.gallery-shot) { transition: transform 160ms ease-out; }
+.portfolio-page :is(button, a.rounded-\[6px\]):not(.fixed):not(.absolute) { position: relative; }
 .portfolio-page :is(button, a.rounded-\[6px\]):not(.gallery-shot)::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--ink); opacity: 0; pointer-events: none; transition: opacity 160ms ease-out; }
 .portfolio-page :is(button, a.rounded-\[6px\]):not(.gallery-shot):active:not(:disabled) { transform: translateY(1px); }
 @media (min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {

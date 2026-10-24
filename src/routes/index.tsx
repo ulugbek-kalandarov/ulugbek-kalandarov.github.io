@@ -308,7 +308,7 @@ function Index() {
                     type="button"
                     onClick={resultsViewer.close}
                     aria-label="Close enlarged screenshot"
-                    className="absolute -top-12 right-0 inline-flex size-10 items-center justify-center rounded-full border border-background/40 text-background transition-colors hover:bg-background/10"
+                    className="absolute -top-12 right-0 inline-flex size-10 items-center justify-center rounded-full border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10"
                   >
                     <X className="size-5" aria-hidden="true" />
                   </Button>
