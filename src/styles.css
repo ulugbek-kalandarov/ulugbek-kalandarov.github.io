@@ -346,6 +346,6 @@ summary::-webkit-details-marker { display: none; }
   .brand-original { flex-wrap: wrap; gap: 1rem 2rem; padding-right: 0; }
   .brand-copy { display: none; }
   .gallery-caption, .gallery-shot:hover .gallery-image, .gallery-shot:focus-visible .gallery-image { transform: none; }
-  .portfolio-page :is(button, a.rounded-\[6px\]):active:not(:disabled) { transform: none; }
+  .portfolio-page :is(button, a.rounded-\[6px\]):active:not(:disabled) { transform: none !important; }
   .viewer-photo-out { display: none; }
 }
