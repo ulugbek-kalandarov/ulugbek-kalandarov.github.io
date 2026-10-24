@@ -11,3 +11,9 @@
 - [x] Add fixed faint edge-fading dots and slow CSS blue/navy shapes behind content
 - [x] Preserve section base colors and disable background motion on mobile and reduced motion
 - [x] Verify layering, desktop motion, static mobile/reduced motion, and page errors
+
+# Interaction details
+- [ ] Service hover lines, desktop card lights and timeline dot pulses
+- [ ] Viewer opening, closing and gallery crossfades
+- [ ] Contact focus borders, sending spinner and success check
+- [ ] Button feedback and desktop/mobile/reduced-motion verification
