@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Check } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Reveal } from "./reveal";
 
 const EMAIL = "kbulugbek@gmail.com";
@@ -53,7 +54,7 @@ export function Contact() {
   };
 
   const field =
-    "w-full rounded-md border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring/25";
+    "contact-field w-full rounded-md border border-input bg-card px-3.5 py-2.5 text-sm text-foreground outline-none placeholder:text-muted-foreground";
   const label = "mb-1.5 block text-xs font-semibold text-muted-foreground";
 
   return (
@@ -103,7 +104,7 @@ export function Contact() {
         <Reveal delay={90}>
           {status === "sent" ? (
             <div className="rounded-lg border border-border bg-card p-6 sm:p-8">
-              <Check className="h-6 w-6 text-link" aria-hidden="true" />
+              <svg className="success-check h-6 w-6 text-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path className="check-short" d="M4 12l5 5" /><path className="check-long" d="M9 17L20 6" /></svg>
               <h3
                 ref={headingRef}
                 tabIndex={-1}
@@ -121,13 +122,13 @@ export function Contact() {
                 </a>
                 .
               </p>
-              <button
+              <Button variant="outline"
                 type="button"
                 onClick={sendAnother}
-                className="mt-6 rounded-[6px] border border-border bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
+                className="mt-6 h-auto rounded-[6px] border border-border bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground shadow-none hover:border-primary hover:bg-transparent hover:text-link"
               >
                 Send another message
-              </button>
+              </Button>
             </div>
           ) : (
             <form
@@ -136,19 +137,19 @@ export function Contact() {
             >
               <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
               <div className="grid gap-5 sm:grid-cols-2">
-                <div>
+                <div className="contact-field-wrap">
                   <label className={label} htmlFor="name">Name</label>
                   <input id="name" name="name" required maxLength={100} className={field} placeholder="Your name" />
                 </div>
-                <div>
+                <div className="contact-field-wrap">
                   <label className={label} htmlFor="email">Email</label>
                   <input id="email" name="email" type="email" required maxLength={255} className={field} placeholder="you@company.com" />
                 </div>
-                <div className="sm:col-span-2">
+                <div className="contact-field-wrap sm:col-span-2">
                   <label className={label} htmlFor="company">Company <span className="normal-case">(optional)</span></label>
                   <input id="company" name="company" maxLength={120} className={field} placeholder="Company name" />
                 </div>
-                <div className="sm:col-span-2">
+                <div className="contact-field-wrap sm:col-span-2">
                   <label className={label} htmlFor="type">Project type</label>
                   <select id="type" name="type" required className={field}>
                     <option>Meta Ads Management</option>
@@ -156,19 +157,21 @@ export function Contact() {
                     <option>Other</option>
                   </select>
                 </div>
-                <div className="sm:col-span-2">
+                <div className="contact-field-wrap sm:col-span-2">
                   <label className={label} htmlFor="message">Message</label>
                   <textarea id="message" name="message" required rows={5} maxLength={2000} className={field} placeholder="What are you trying to achieve?" />
                 </div>
               </div>
 
-              <button
+               <Button
                 type="submit"
                 disabled={status === "sending"}
-                className="mt-6 w-full rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
+                 className="mt-6 h-auto w-full rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-none hover:bg-primary-deep disabled:opacity-60 sm:w-auto"
+                 aria-busy={status === "sending"}
               >
-                {status === "sending" ? "Sending…" : "Send message"}
-              </button>
+                 {status === "sending" && <LoaderCircle className="sending-spinner size-4" aria-hidden="true" />}
+                 {status === "sending" ? "Sending" : "Send message"}
+               </Button>
               {status === "error" ? (
                 <p className="mt-4 text-sm text-destructive" role="alert">
                   Something went wrong sending your message. Please email me directly at{" "}

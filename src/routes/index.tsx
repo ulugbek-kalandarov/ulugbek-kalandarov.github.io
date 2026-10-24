@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { BarChart3, Download, Globe2, LineChart, Users, X, ZoomIn } from "lucide-react";
 
 import { SiteNav } from "@/components/site/nav";
@@ -7,6 +7,8 @@ import { Reveal } from "@/components/site/reveal";
 import { Gallery } from "@/components/site/gallery";
 import { Contact } from "@/components/site/contact";
 import { PageBackground } from "@/components/site/page-background";
+import { Button } from "@/components/ui/button";
+import { PointerLights, useViewerTransition } from "@/components/site/interaction-details";
 import { BackToTop, BrandStrip, CountUp, ExperienceTimeline, HeroParallax, SectionReveals } from "@/components/site/interactions";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
@@ -94,21 +96,22 @@ const STATS = [
 ];
 
 function Index() {
-  const [isResultsOpen, setIsResultsOpen] = useState(false);
+  const resultsViewer = useViewerTransition();
+  const resultsDialog = useRef<HTMLDialogElement>(null);
+  const isResultsOpen = resultsViewer.visible;
 
   useEffect(() => {
     if (!isResultsOpen) return;
 
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsResultsOpen(false);
-    };
-
-    window.addEventListener("keydown", onKeyDown);
+    const viewer = resultsDialog.current;
+    if (!viewer) return;
+    viewer.showModal();
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
+      viewer.close();
+      document.body.style.overflow = previousOverflow;
     };
   }, [isResultsOpen]);
 
@@ -189,7 +192,7 @@ function Index() {
               {SERVICES.map((s, i) => (
                 <article
                   key={s.title}
-                  className={`border-b border-border py-8 sm:px-8 ${i % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"}`}
+                  className={`service-interaction border-b border-border py-8 sm:px-8 ${i % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"}`}
                 >
                   <s.icon className="size-5 text-link" strokeWidth={1.75} aria-hidden="true" />
                   <h3 className="mt-4 text-xl">{s.title}</h3>
@@ -216,7 +219,7 @@ function Index() {
                 {STATS.map((s) => (
                   <div
                     key={s.label}
-                    className="rounded-lg border border-border bg-card p-5"
+                    className="pointer-light-box rounded-lg border border-border bg-card p-5"
                   >
                     <dd className="font-display text-2xl font-semibold sm:text-3xl"><CountUp value={s.value} /></dd>
                     <dt className="mt-1.5 text-xs font-medium text-muted-foreground">
@@ -240,11 +243,11 @@ function Index() {
                         adsmanager.facebook.com — Campaign performance
                       </span>
                     </div>
-                    <button
+                    <Button variant="ghost"
                       type="button"
-                      onClick={() => setIsResultsOpen(true)}
+                      onClick={resultsViewer.open}
                       aria-label="Enlarge Meta Ads campaign performance screenshot"
-                      className="block w-full cursor-zoom-in bg-card"
+                      className="block h-auto w-full cursor-zoom-in rounded-none bg-card p-0 hover:bg-card"
                     >
                       <img
                         src={campaignsRecords.url}
@@ -254,23 +257,23 @@ function Index() {
                         loading="lazy"
                         className="h-auto w-full"
                       />
-                    </button>
+                    </Button>
                     <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
                       Meta (Facebook &amp; Instagram) — traffic campaigns recruiting participants for a university
                       startup event: audience targeting, budget management and performance monitoring.
                     </figcaption>
                   </figure>
-                  <button
+                  <Button variant="ghost"
                     type="button"
-                    onClick={() => setIsResultsOpen(true)}
-                    className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                    onClick={resultsViewer.open}
+                    className="mt-3 inline-flex h-auto items-center gap-1.5 p-0 text-xs text-muted-foreground hover:bg-transparent hover:text-foreground"
                   >
                     <ZoomIn className="size-3.5" aria-hidden="true" />
                     Click to enlarge
-                  </button>
+                  </Button>
                 </div>
 
-                <aside className="min-w-0 rounded-lg border border-border bg-card p-6 sm:p-8">
+                <aside className="pointer-light-box min-w-0 rounded-lg border border-border bg-card p-6 sm:p-8">
                   <p className="eyebrow">Case Study</p>
                   <h3 className="mt-3 text-2xl font-semibold leading-tight">Meta Ads Campaign — Full Breakdown</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -291,22 +294,24 @@ function Index() {
             </Reveal>
 
             {isResultsOpen ? (
-              <div
-                role="dialog"
+              <dialog
+                ref={resultsDialog}
                 aria-modal="true"
                 aria-label="Meta Ads campaign performance screenshot"
-                onClick={() => setIsResultsOpen(false)}
-                className="fixed inset-0 z-[90] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
+                onCancel={(event) => { event.preventDefault(); resultsViewer.close(); }}
+                onClick={(event) => { if (event.target === event.currentTarget) resultsViewer.close(); }}
+                data-closing={resultsViewer.closing}
+                className="gallery-dialog animated-viewer fixed inset-0 z-[90] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
               >
-                <div className="relative w-full max-w-[min(96vw,1600px)]" onClick={(event) => event.stopPropagation()}>
-                  <button
+                <div className="viewer-content relative w-full max-w-[min(96vw,1600px)]" onClick={(event) => event.stopPropagation()}>
+                  <Button variant="ghost" size="icon"
                     type="button"
-                    onClick={() => setIsResultsOpen(false)}
+                    onClick={resultsViewer.close}
                     aria-label="Close enlarged screenshot"
                     className="absolute -top-12 right-0 inline-flex size-10 items-center justify-center rounded-full border border-background/40 text-background transition-colors hover:bg-background/10"
                   >
                     <X className="size-5" aria-hidden="true" />
-                  </button>
+                  </Button>
                   <img
                     src={campaignsRecords.url}
                     alt="Meta Ads Manager campaign performance dashboard showing campaign results"
@@ -315,7 +320,7 @@ function Index() {
                     className="max-h-[85vh] w-full rounded-lg object-contain"
                   />
                 </div>
-              </div>
+              </dialog>
             ) : null}
           </div>
         </section>
@@ -332,7 +337,7 @@ function Index() {
               {EXPERIENCE.map((e, i) => (
                 <Reveal key={e.org} delay={i * 80} as="li">
                   <div className="relative pb-10 pl-6 last:pb-0 md:pl-8">
-                    <span className="absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-primary" />
+                    <span className="timeline-dot absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-primary" aria-hidden="true" />
                     <div className="grid gap-1 sm:flex sm:items-baseline sm:justify-between sm:gap-4">
                       <h3 className="text-lg font-semibold">
                         {e.role} <span className="text-link">— {e.org}</span>
@@ -413,6 +418,7 @@ function Index() {
       <BackToTop />
       <SectionReveals />
       <HeroParallax />
+      <PointerLights />
     </div>
   );
 }

@@ -78,12 +78,17 @@ export function ExperienceTimeline({ children }: { children: ReactNode }) {
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    if (reduced) { element.style.setProperty("--timeline-progress", "1"); return; }
+    const dots = Array.from(element.querySelectorAll<HTMLElement>(".timeline-dot"));
+    if (reduced) { element.style.setProperty("--timeline-progress", "1"); dots.forEach((dot) => dot.classList.add("timeline-reached")); return; }
+    dots.forEach((dot) => dot.classList.remove("timeline-reached"));
     let frame = 0;
     const update = () => {
       const rect = element.getBoundingClientRect();
       const progress = Math.max(0, Math.min(1, (window.innerHeight * 0.65 - rect.top) / rect.height));
       element.style.setProperty("--timeline-progress", String(progress));
+      for (const dot of dots) {
+        if (dot.getBoundingClientRect().top - rect.top <= progress * rect.height) dot.classList.add("timeline-reached");
+      }
     };
     const schedule = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); };
     update();
