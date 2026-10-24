@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./reveal";
+import { CrossfadePhoto, useViewerTransition } from "./interaction-details";
 
 import apollo from "@/assets/apollo.png.asset.json";
 import mlb from "@/assets/mlb_br.webp.asset.json";
@@ -29,7 +30,8 @@ export function Gallery() {
   const [active, setActive] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
-  const isOpen = active !== null;
+  const viewerTransition = useViewerTransition();
+  const isOpen = viewerTransition.visible;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -46,7 +48,7 @@ export function Gallery() {
   }, [isOpen]);
 
   const onKey = (e: React.KeyboardEvent<HTMLDialogElement>) => {
-      if (e.key === "Escape") setActive(null);
+      if (e.key === "Escape") { e.preventDefault(); viewerTransition.close(); }
       if (e.key === "ArrowRight") { e.preventDefault(); setActive((i) => (i === null ? i : (i + 1) % PHOTOS.length)); }
       if (e.key === "ArrowLeft") { e.preventDefault(); setActive((i) => (i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length)); }
   };
@@ -69,7 +71,7 @@ export function Gallery() {
             <Button variant="ghost"
               key={p.caption}
               type="button"
-              onClick={(event) => { trigger.current = event.currentTarget; setActive(i); }}
+               onClick={(event) => { trigger.current = event.currentTarget; setActive(i); viewerTransition.open(); }}
               aria-label={`View ${p.caption}`}
               className="gallery-shot group mb-4 block h-auto w-full break-inside-avoid overflow-hidden whitespace-normal rounded-lg border border-border bg-card p-0 text-left hover:bg-card hover:text-foreground"
             >
@@ -89,19 +91,20 @@ export function Gallery() {
         </div>
       </div>
 
-      {shot ? (
+      {shot && isOpen ? (
         <dialog
           ref={dialog}
           aria-modal="true"
           aria-label={shot.caption}
           onKeyDown={onKey}
-          onCancel={(event) => { event.preventDefault(); setActive(null); }}
-          onClick={(event) => { if (event.target === event.currentTarget) setActive(null); }}
-          className="gallery-dialog fixed inset-0 z-[80] bg-ink/90 p-4 text-primary-foreground"
+          onCancel={(event) => { event.preventDefault(); viewerTransition.close(); }}
+          onClick={(event) => { if (event.target === event.currentTarget) viewerTransition.close(); }}
+          data-closing={viewerTransition.closing}
+          className="gallery-dialog animated-viewer fixed inset-0 z-[80] bg-ink/90 p-4 text-primary-foreground"
         >
-          <div className="pointer-events-none flex h-full w-full flex-col items-center justify-center">
+          <div className="viewer-content pointer-events-none flex h-full w-full flex-col items-center justify-center">
           <figure className="pointer-events-auto flex min-h-0 w-full max-w-[1600px] flex-col items-center">
-            <img src={shot.src} alt={shot.alt} className="mx-auto max-h-[calc(100dvh-160px)] max-w-full rounded-lg object-contain" />
+            <CrossfadePhoto src={shot.src} alt={shot.alt} />
             <figcaption className="mt-4 max-w-xl text-center text-sm font-medium" aria-live="polite">{shot.caption}</figcaption>
           </figure>
           <div className="pointer-events-auto mt-4 flex items-center gap-4">
@@ -112,7 +115,7 @@ export function Gallery() {
           </div>
               <Button variant="ghost" size="icon"
                 type="button"
-                onClick={() => setActive(null)}
+                onClick={viewerTransition.close}
                 aria-label="Close photo viewer"
                 title="Close"
                 className="absolute right-4 top-4 size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
