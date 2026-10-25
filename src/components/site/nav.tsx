@@ -2,16 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useReducedMotion } from "./interactions";
 import { ThemeToggle } from "./theme-toggle";
-
-const LINKS = [
-  { href: "#services", label: "What I Do" },
-  { href: "#results", label: "Results" },
-  { href: "#experience", label: "Experience" },
-  { href: "#gallery", label: "Field Work" },
-  { href: "#contact", label: "Contact" },
-];
+import { LanguageSwitcher } from "./language-switcher";
+import { useLanguage } from "@/i18n/provider";
 
 export function SiteNav() {
+  const { t, lang } = useLanguage();
+  const LINKS = [
+    { href: "#services", label: t.nav.services },
+    { href: "#results", label: t.nav.results },
+    { href: "#experience", label: t.nav.experience },
+    { href: "#gallery", label: t.nav.gallery },
+    { href: "#contact", label: t.nav.contact },
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
@@ -29,7 +31,7 @@ export function SiteNav() {
     place();
     window.addEventListener("resize", place);
     return () => window.removeEventListener("resize", place);
-  }, [active, scrolled]);
+  }, [active, scrolled, lang]);
 
   const goTo = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     const target = document.querySelector<HTMLElement>(href);
@@ -39,7 +41,9 @@ export function SiteNav() {
     const offset = 64; // compact header height plus a small gap
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: reduced ? "instant" : "smooth" });
-    history.replaceState(null, "", href);
+    const url = new URL(window.location.href);
+    url.hash = href;
+    history.replaceState(history.state, "", url);
   };
 
   useEffect(() => {
@@ -75,7 +79,7 @@ export function SiteNav() {
         <a href="#top" className="min-w-0 font-display text-base font-semibold text-foreground">
           Ulugbek Kalandarov
           <span className="ml-2 hidden text-xs font-medium text-muted-foreground sm:inline">
-            Performance Marketing
+            {t.nav.tagline}
           </span>
         </a>
 
@@ -102,21 +106,23 @@ export function SiteNav() {
             onClick={(e) => goTo(e, "#contact")}
             className="rounded-[6px] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
           >
-            Get in Touch
+            {t.nav.cta}
           </a>
+          <LanguageSwitcher />
           <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
+          <LanguageSwitcher />
           <ThemeToggle />
           <Button variant="outline"
           type="button"
-          aria-label="Toggle navigation menu"
+          aria-label={t.nav.toggleMenu}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
           className="shrink-0 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground shadow-none"
           >
-            {open ? "Close" : "Menu"}
+            {open ? t.nav.close : t.nav.menu}
           </Button>
         </div>
       </nav>
@@ -124,7 +130,7 @@ export function SiteNav() {
       {open ? (
         <div className="border-t border-border bg-background px-5 pb-5 lg:hidden">
           <ul className="flex flex-col">
-            {[...LINKS, { href: "#contact", label: "Get in Touch" }].map((l) => (
+            {[...LINKS, { href: "#contact", label: t.nav.cta }].map((l) => (
               <li key={l.label}>
                 <a
                   href={l.href}

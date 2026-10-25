@@ -2,11 +2,15 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "./reveal";
+import { useLanguage } from "@/i18n/provider";
+import { translations } from "@/i18n/translations";
+import { englishProjectType, fillText } from "@/i18n/language";
 
 const EMAIL = "kbulugbek@gmail.com";
 const WEB3FORMS_KEY = "3c6dbbaf-5947-469b-91bf-793165cbcf30";
 
 export function Contact() {
+  const { t, lang } = useLanguage();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [firstName, setFirstName] = useState("");
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -33,7 +37,8 @@ export function Contact() {
           name,
           email: String(data.get("email") ?? "").trim().slice(0, 255),
           company: String(data.get("company") ?? "").trim().slice(0, 120),
-          project_type: String(data.get("type") ?? "").trim(),
+          project_type: englishProjectType(String(data.get("type") ?? "").trim()),
+          language: lang,
           message: String(data.get("message") ?? "").trim().slice(0, 2000),
           botcheck: data.get("botcheck") ? "on" : "",
         }),
@@ -61,16 +66,15 @@ export function Contact() {
     <section id="contact" className="border-t border-border py-20 md:py-28">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 md:px-8 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal>
-          <p className="eyebrow">Contact</p>
-          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Want to grow your business? </h2>
+          <p className="eyebrow">{t.contact.eyebrow}</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{t.contact.heading}</h2>
           <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
-            Hiring for a marketing role or need help with paid media? Tell me what you&apos;re looking for and
-            I&apos;ll get back to you.
+            {t.contact.intro}
           </p>
 
           <dl className="mt-8 space-y-4 text-sm">
             <div>
-              <dt className={label}>Email</dt>
+              <dt className={label}>{t.contact.emailLabel}</dt>
               <dd>
                 <a href={`mailto:${EMAIL}`} className="font-medium text-foreground hover:text-link">
                   {EMAIL}
@@ -78,7 +82,7 @@ export function Contact() {
               </dd>
             </div>
             <div>
-              <dt className={label}>Phone</dt>
+              <dt className={label}>{t.contact.phoneLabel}</dt>
               <dd>
                 <a href="tel:+821027121929" className="font-medium text-foreground hover:text-link">
                   +82-10-2712-1929
@@ -86,7 +90,7 @@ export function Contact() {
               </dd>
             </div>
             <div>
-              <dt className={label}>LinkedIn</dt>
+              <dt className={label}>{t.contact.linkedinLabel}</dt>
               <dd>
                 <a
                   href="https://linkedin.com/in/ulugbek-kalandarov"
@@ -110,24 +114,24 @@ export function Contact() {
                 tabIndex={-1}
                 className="mt-4 text-2xl font-semibold text-foreground outline-none focus:outline-none"
               >
-                {firstName ? `Thank you, ${firstName}.` : "Thank you."}
+                {firstName ? fillText(t.contact.success.headingWithName, { name: firstName }) : t.contact.success.heading}
               </h3>
               <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-                Your message has been received. I appreciate you reaching out and will reply as soon as possible.
+                {t.contact.success.body}
               </p>
               <p className="mt-4 text-sm text-muted-foreground">
-                For anything urgent, you can email me directly at{" "}
+                {t.contact.success.urgent.split("{email}")[0]}
                 <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">
                   {EMAIL}
                 </a>
-                .
+                {t.contact.success.urgent.split("{email}")[1]}
               </p>
               <Button variant="outline"
                 type="button"
                 onClick={sendAnother}
                 className="mt-6 h-auto rounded-[6px] border border-border bg-transparent px-5 py-2.5 text-sm font-semibold text-foreground shadow-none hover:border-primary hover:bg-transparent hover:text-link"
               >
-                Send another message
+                {t.contact.success.sendAnother}
               </Button>
             </div>
           ) : (
@@ -138,28 +142,26 @@ export function Contact() {
               <input type="checkbox" name="botcheck" className="hidden" style={{ display: "none" }} tabIndex={-1} autoComplete="off" aria-hidden="true" />
               <div className="grid gap-5 sm:grid-cols-2">
                 <div className="contact-field-wrap">
-                  <label className={label} htmlFor="name">Name</label>
-                  <input id="name" name="name" required maxLength={100} className={field} placeholder="Your name" />
+                  <label className={label} htmlFor="name">{t.contact.form.name}</label>
+                  <input id="name" name="name" required maxLength={100} className={field} placeholder={t.contact.form.namePlaceholder} />
                 </div>
                 <div className="contact-field-wrap">
-                  <label className={label} htmlFor="email">Email</label>
-                  <input id="email" name="email" type="email" required maxLength={255} className={field} placeholder="you@company.com" />
+                  <label className={label} htmlFor="email">{t.contact.form.email}</label>
+                  <input id="email" name="email" type="email" required maxLength={255} className={field} placeholder={t.contact.form.emailPlaceholder} />
                 </div>
                 <div className="contact-field-wrap sm:col-span-2">
-                  <label className={label} htmlFor="company">Company <span className="normal-case">(optional)</span></label>
-                  <input id="company" name="company" maxLength={120} className={field} placeholder="Company name" />
+                  <label className={label} htmlFor="company">{t.contact.form.company} <span className="normal-case">{t.contact.form.optional}</span></label>
+                  <input id="company" name="company" maxLength={120} className={field} placeholder={t.contact.form.companyPlaceholder} />
                 </div>
                 <div className="contact-field-wrap sm:col-span-2">
-                  <label className={label} htmlFor="type">Project type</label>
+                  <label className={label} htmlFor="type">{t.contact.form.type}</label>
                   <select id="type" name="type" required className={field}>
-                    <option>Meta Ads Management</option>
-                    <option>B2B Campaign</option>
-                    <option>Other</option>
+                    {t.contact.form.typeOptions.map((option, i) => <option key={i} value={translations.en.contact.form.typeOptions[i]}>{option}</option>)}
                   </select>
                 </div>
                 <div className="contact-field-wrap sm:col-span-2">
-                  <label className={label} htmlFor="message">Message</label>
-                  <textarea id="message" name="message" required rows={5} maxLength={2000} className={field} placeholder="What are you trying to achieve?" />
+                  <label className={label} htmlFor="message">{t.contact.form.message}</label>
+                  <textarea id="message" name="message" required rows={5} maxLength={2000} className={field} placeholder={t.contact.form.messagePlaceholder} />
                 </div>
               </div>
 
@@ -170,12 +172,12 @@ export function Contact() {
                  aria-busy={status === "sending"}
               >
                  {status === "sending" && <LoaderCircle className="sending-spinner size-4" aria-hidden="true" />}
-                 {status === "sending" ? "Sending" : "Send message"}
+                 {status === "sending" ? t.contact.form.sending : t.contact.form.send}
                </Button>
               {status === "error" ? (
                 <p className="mt-4 text-sm text-destructive" role="alert">
-                  Something went wrong sending your message. Please email me directly at{" "}
-                  <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>.
+                  {t.contact.form.error.split("{email}")[0]}
+                  <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>{t.contact.form.error.split("{email}")[1]}
                 </p>
               ) : null}
             </form>
