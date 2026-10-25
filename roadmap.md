@@ -1,4 +1,11 @@
 # Portfolio interactions
+# Languages
+- [ ] Wire exact translations across all page text and accessible labels
+- [ ] Add remembered and shareable header language selection and Korean fonts
+- [ ] Send English project types and visitor language in contact emails
+- [ ] Verify all languages, mobile layout and contact flow
+
+# Portfolio interactions
 - [x] Hero entrance and one-time stats counting
 - [x] Scroll-aware navigation, progress and back-to-top
 - [x] Events strip and Experience timeline
