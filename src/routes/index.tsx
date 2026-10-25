@@ -17,7 +17,7 @@ import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (search: Record<string, unknown>): { lang?: string } => ({ lang: typeof search.lang === "string" ? search.lang : undefined }),
+  validateSearch: (search: Record<string, unknown>): { lang?: string | undefined } => ({ lang: typeof search['lang'] === "string" ? search['lang'] : undefined }),
   head: ({ match }) => {
     const t = translations[resolveLanguage(match.search.lang, undefined)];
     return { meta: [

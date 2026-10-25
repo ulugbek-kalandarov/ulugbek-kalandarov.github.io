@@ -5,7 +5,7 @@ import { isLang, resolveLanguage } from "./language";
 
 const LanguageContext = createContext({ lang: "en" as Lang, t: translations.en as (typeof translations)[Lang], setLanguage: (_lang: Lang) => {} });
 
-export function LanguageProvider({ searchLanguage, children }: { searchLanguage?: string; children: ReactNode }) {
+export function LanguageProvider({ searchLanguage, children }: { searchLanguage?: string | undefined; children: ReactNode }) {
   const navigate = useNavigate({ from: "/" });
   const lang = resolveLanguage(searchLanguage, undefined);
   const setLanguage = (next: Lang) => {
