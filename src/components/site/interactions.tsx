@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowUp } from "lucide-react";
+import { useLanguage } from "@/i18n/provider";
 import { Button } from "@/components/ui/button";
 
 export function useReducedMotion() {
@@ -54,10 +55,11 @@ export function CountUp({ value }: { value: string }) {
 const EVENTS = ["Apollo", "MLB", "JSW Dulux", "Charles Monat", "AXIS MAX", "Seoul Indie Beauty Show", "BJFEZ", "University of Utah Asia Campus"];
 
 export function BrandStrip() {
+  const { t } = useLanguage();
   return (
     <div className="brand-strip border-t border-border py-6">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
-        <p className="eyebrow mb-4">Events supported</p>
+        <p className="eyebrow mb-4">{t.brandStrip.label}</p>
         <div className="overflow-hidden">
           <div className="brand-track flex w-max">
             {[0, 1].map((copy) => (
@@ -101,6 +103,7 @@ export function ExperienceTimeline({ children }: { children: ReactNode }) {
 
 
 export function BackToTop() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
   const reduced = useReducedMotion();
   useEffect(() => {
@@ -112,7 +115,7 @@ export function BackToTop() {
     return () => window.removeEventListener("scroll", update);
   }, []);
   if (!visible) return null;
-  return <Button size="icon" className="fixed bottom-5 right-5 z-40 size-11 border border-border bg-primary text-primary-foreground shadow-none hover:bg-primary-deep" aria-label="Back to top" title="Back to top" onClick={() => window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" })}><ArrowUp /></Button>;
+  return <Button size="icon" className="fixed bottom-5 right-5 z-40 size-11 border border-border bg-primary text-primary-foreground shadow-none hover:bg-primary-deep" aria-label={t.misc.backToTop} title={t.misc.backToTop} onClick={() => window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" })}><ArrowUp /></Button>;
 }
 const ITEM_SELECTOR = "#services article, #results dl > div, .experience-timeline > li, .gallery-shot, [data-skills] > li";
 

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/i18n/provider";
+import { fillText } from "@/i18n/language";
 import { Reveal } from "./reveal";
 import { CrossfadePhoto, useViewerTransition } from "./interaction-details";
 
@@ -27,6 +29,8 @@ const PHOTOS: Shot[] = [
 ];
 
 export function Gallery() {
+  const { t } = useLanguage();
+  const photos = PHOTOS.map((photo, i) => ({ ...photo, ...t.gallery.photos[i] }));
   const [active, setActive] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
@@ -53,26 +57,26 @@ export function Gallery() {
       if (e.key === "ArrowLeft") { e.preventDefault(); setActive((i) => (i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length)); }
   };
 
-  const shot = active === null ? null : PHOTOS[active];
+  const shot = active === null ? null : photos[active];
 
   return (
     <section id="gallery" className="border-t border-border bg-surface py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="max-w-2xl">
-          <p className="eyebrow">Field experience</p>
-          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Trusted at international events</h2>
+          <p className="eyebrow">{t.gallery.eyebrow}</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{t.gallery.heading}</h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            On-site event support for global brands, institutions and forums hosted in Seoul.
+            {t.gallery.intro}
           </p>
         </Reveal>
 
         <div className="mt-12 gap-4 [column-fill:_balance] sm:columns-2 lg:columns-3 xl:columns-4">
-          {PHOTOS.map((p, i) => (
+          {photos.map((p, i) => (
             <Button variant="ghost"
-              key={p.caption}
+              key={i}
               type="button"
                onClick={(event) => { trigger.current = event.currentTarget; setActive(i); viewerTransition.open(); }}
-              aria-label={`View ${p.caption}`}
+              aria-label={fillText(t.gallery.viewPhoto, { caption: p.caption })}
               className="gallery-shot group mb-4 block h-auto w-full break-inside-avoid overflow-hidden whitespace-normal rounded-lg border border-border bg-card p-0 text-left hover:bg-card hover:text-foreground"
             >
               <div className="relative overflow-hidden">
@@ -108,16 +112,16 @@ export function Gallery() {
             <figcaption className="mt-4 max-w-xl text-center text-sm font-medium" aria-live="polite">{shot.caption}</figcaption>
           </figure>
           <div className="pointer-events-auto mt-4 flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" aria-label="Previous photo" title="Previous photo" onClick={() => setActive((i) => i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length)}><ArrowLeft /></Button>
+            <Button variant="ghost" size="icon" className="size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" aria-label={t.gallery.previous} title={t.gallery.previous} onClick={() => setActive((i) => i === null ? i : (i + PHOTOS.length - 1) % PHOTOS.length)}><ArrowLeft /></Button>
             <span className="min-w-10 text-center text-sm tabular-nums">{(active ?? 0) + 1} / {PHOTOS.length}</span>
-            <Button variant="ghost" size="icon" className="size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" aria-label="Next photo" title="Next photo" onClick={() => setActive((i) => i === null ? i : (i + 1) % PHOTOS.length)}><ArrowRight /></Button>
+            <Button variant="ghost" size="icon" className="size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" aria-label={t.gallery.next} title={t.gallery.next} onClick={() => setActive((i) => i === null ? i : (i + 1) % PHOTOS.length)}><ArrowRight /></Button>
           </div>
           </div>
               <Button variant="ghost" size="icon"
                 type="button"
                 onClick={viewerTransition.close}
-                aria-label="Close photo viewer"
-                title="Close"
+                aria-label={t.gallery.closeViewer}
+                title={t.gallery.close}
                 className="absolute right-4 top-4 size-11 border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
               >
                 <X />

@@ -10,92 +10,42 @@ import { PageBackground } from "@/components/site/page-background";
 import { Button } from "@/components/ui/button";
 import { PointerLights, useViewerTransition } from "@/components/site/interaction-details";
 import { BackToTop, BrandStrip, CountUp, ExperienceTimeline, HeroParallax, SectionReveals } from "@/components/site/interactions";
+import { translations } from "@/i18n/translations";
+import { resolveLanguage } from "@/i18n/language";
+import { LanguageProvider, useLanguage } from "@/i18n/provider";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
 
-const TITLE = "Ulugbek Kalandarov — Performance Marketing";
-const DESCRIPTION =
-  "Performance marketer in Seoul specializing in Meta Ads and B2B growth campaigns. Open to full-time, internship, freelance and contract roles.";
-
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
+  validateSearch: (search: Record<string, unknown>): { lang?: string } => ({ lang: typeof search.lang === "string" ? search.lang : undefined }),
+  head: ({ match }) => {
+    const t = translations[resolveLanguage(match.search.lang, undefined)];
+    return { meta: [
+      { title: t.meta.title },
+      { name: "description", content: t.meta.description },
+      { property: "og:title", content: t.meta.title },
+      { property: "og:description", content: t.meta.description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: TITLE },
-    ],
-  }),
-  component: Index,
+      { name: "twitter:title", content: t.meta.title },
+      { name: "twitter:description", content: t.meta.description },
+    ] };
+  },
+  component: LocalizedIndex,
 });
 
-const SERVICES = [
-  {
-    icon: BarChart3,
-    title: "Meta Ads Management",
-    body: "Facebook & Instagram campaign planning, funnel setup, creative testing, daily optimization and clear reporting.",
-  },
-  {
-    icon: Users,
-    title: "B2B Marketing Campaigns",
-    body: "Outbound outreach, partnership development and lead acquisition programs built for long, considered sales cycles.",
-  },
-  {
-    icon: Globe2,
-    title: "Cross-Cultural Digital Marketing",
-    body: "Campaigns localized for English and Uzbek speaking markets.",
-  },
-  {
-    icon: LineChart,
-    title: "Growth Strategy & Reporting",
-    body: "Data-driven optimization, spend allocation and performance reporting that a decision-maker can actually read.",
-  },
-];
+const SERVICE_ICONS = [BarChart3, Users, Globe2, LineChart];
+const STAT_VALUES = ["60+", "10+", "$0.12", "~$1.72"];
 
-const EXPERIENCE = [
-  {
-    role: "Marketing Assistant",
-    org: "W Korea",
-    period: "FEB 2026 — AUG 2026",
-    points: [
-      "Global marketing strategy for MICE, cultural and entertainment events.",
-      "B2B campaigns acquiring international partnerships across the US, Europe and Asia.",
-      "Institutional partnership proposals and sponsorship development.",
-      "Meta Ads execution supporting event and brand campaigns.",
-    ],
-  },
-  {
-    role: "Ads Specialist",
-    org: "Access Consulting",
-    period: "Oct 2024 — Mar 2025",
-    points: [
-      "Planned and optimized Telegram and Meta ad campaigns for an education consulting agency.",
-      "Owned lead acquisition and day-to-day digital advertising performance.",
-    ],
-  },
-];
-
-const SKILLS = [
-  "Meta Ads Manager",
-  "Campaign Optimization",
-  "B2B Partnerships",
-  "Sponsorship Development",
-  "English / Uzbek / Turkish",
-  "Event Marketing Coordination",
-  "Data-Driven Reporting",
-];
-
-const STATS = [
-  { value: "60+", label: "Event participants" },
-  { value: "10+", label: "Universities reached" },
-  { value: "$0.12", label: "Cost per link click" },
-  { value: "~$1.72", label: "Ad spend per participant" },
-];
+function LocalizedIndex() {
+  const { lang } = Route.useSearch();
+  return <LanguageProvider searchLanguage={lang}><Index /></LanguageProvider>;
+}
 
 function Index() {
+  const { t } = useLanguage();
+  const SERVICES = t.services.items.map((item, i) => ({ ...item, icon: SERVICE_ICONS[i] ?? BarChart3 }));
+  const STATS = t.results.stats.map((label, i) => ({ label, value: STAT_VALUES[i] ?? "" }));
   const resultsViewer = useViewerTransition();
   const resultsDialog = useRef<HTMLDialogElement>(null);
   const isResultsOpen = resultsViewer.visible;
@@ -128,7 +78,7 @@ function Index() {
               <div data-parallax className="hero-parallax relative aspect-square overflow-hidden rounded-lg border border-border bg-surface">
                 <img
                   src={headshot.url}
-                  alt="Portrait of Ulugbek Kalandarov, performance marketer"
+                  alt={t.hero.photoAlt}
                   width={1200}
                   height={1200}
                   className="h-full w-full object-cover object-top"
@@ -137,17 +87,15 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="min-w-0">
-              <p className="hero-step hero-step-0 eyebrow">Seoul, South Korea · Open to full-time, internship, freelance & contract roles</p>
+              <p className="hero-step hero-step-0 eyebrow">{t.hero.location}</p>
               <h1 className="hero-step hero-step-1 mt-4 text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
                 Ulugbek Kalandarov
               </h1>
               <p className="hero-step hero-step-2 mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl">
-                Performance Marketer specializing in Meta Ads &amp; B2B growth campaigns.
+                {t.hero.subtitle}
               </p>
               <p className="hero-step hero-step-3 mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-                I plan, launch and optimize paid social campaigns for companies selling into competitive,
-                multilingual markets. My work sits where media buying meets business development — building
-                pipeline, not just impressions.
+                {t.hero.intro}
               </p>
 
               <div className="hero-step hero-step-4 mt-8 flex flex-wrap gap-3">
@@ -155,13 +103,13 @@ function Index() {
                   href="#contact"
                   className="rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
                 >
-                  Get in Touch
+                  {t.hero.ctaContact}
                 </a>
                 <a
                   href="#results"
                   className="rounded-[6px] border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
                 >
-                  See My Work
+                  {t.hero.ctaWork}
                 </a>
                 <a
                   href="/Ulugbek-Kalandarov-CV.pdf"
@@ -170,7 +118,7 @@ function Index() {
                   className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
                 >
                   <Download className="size-4" aria-hidden="true" />
-                  Download CV
+                  {t.hero.ctaCv}
                 </a>
               </div>
 
@@ -184,14 +132,14 @@ function Index() {
         <section id="services" className="border-t border-border bg-surface py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-5 md:px-8">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow">What I do</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Paid media built around business outcomes</h2>
+              <p className="eyebrow">{t.services.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{t.services.heading}</h2>
             </Reveal>
 
             <div className="mt-12 grid border-t border-border sm:grid-cols-2">
               {SERVICES.map((s, i) => (
                 <article
-                  key={s.title}
+                  key={i}
                   className={`service-interaction border-b border-border py-8 sm:px-8 ${i % 2 === 0 ? "sm:border-r sm:pl-0" : "sm:pr-0"}`}
                 >
                   <s.icon className="size-5 text-link" strokeWidth={1.75} aria-hidden="true" />
@@ -207,18 +155,18 @@ function Index() {
         <section id="results" className="border-t border-border py-20 md:py-28">
           <div className="mx-auto max-w-6xl px-5 md:px-8">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow">Proof</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Real campaign performance</h2>
+              <p className="eyebrow">{t.results.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{t.results.heading}</h2>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                Reporting straight from Meta Ads Manager, from a campaign I managed.
+                {t.results.intro}
               </p>
             </Reveal>
 
             <Reveal delay={40} className="mt-10">
               <dl className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-                {STATS.map((s) => (
+                {STATS.map((s, i) => (
                   <div
-                    key={s.label}
+                    key={i}
                     className="pointer-light-box rounded-lg border border-border bg-card p-5"
                   >
                     <dd className="font-display text-2xl font-semibold sm:text-3xl"><CountUp value={s.value} /></dd>
@@ -228,7 +176,7 @@ function Index() {
                   </div>
                 ))}
               </dl>
-              <p className="mt-3 text-xs text-muted-foreground">UAC Startup Sprint · $103 total ad spend</p>
+              <p className="mt-3 text-xs text-muted-foreground">{t.results.statsNote}</p>
             </Reveal>
 
             <Reveal delay={80} className="mt-10">
@@ -240,18 +188,18 @@ function Index() {
                       <span className="size-2.5 rounded-full bg-border" />
                       <span className="size-2.5 rounded-full bg-border" />
                       <span className="ml-3 truncate text-xs text-muted-foreground">
-                        adsmanager.facebook.com — Campaign performance
+                        {t.results.windowLabel}
                       </span>
                     </div>
                     <Button variant="ghost"
                       type="button"
                       onClick={resultsViewer.open}
-                      aria-label="Enlarge Meta Ads campaign performance screenshot"
+                      aria-label={t.results.enlargeAria}
                       className="block h-auto w-full cursor-zoom-in rounded-none bg-card p-0 hover:bg-card"
                     >
                       <img
                         src={campaignsRecords.url}
-                        alt="Meta Ads Manager campaign performance dashboard showing campaign results"
+                        alt={t.results.screenshotAlt}
                         width={1920}
                         height={880}
                         loading="lazy"
@@ -259,8 +207,7 @@ function Index() {
                       />
                     </Button>
                     <figcaption className="border-t border-border px-5 py-4 text-sm leading-relaxed text-muted-foreground">
-                      Meta (Facebook &amp; Instagram) — traffic campaigns recruiting participants for a university
-                      startup event: audience targeting, budget management and performance monitoring.
+                      {t.results.caption}
                     </figcaption>
                   </figure>
                   <Button variant="ghost"
@@ -269,15 +216,15 @@ function Index() {
                     className="mt-3 inline-flex h-auto items-center gap-1.5 p-0 text-xs text-muted-foreground hover:bg-transparent hover:text-foreground"
                   >
                     <ZoomIn className="size-3.5" aria-hidden="true" />
-                    Click to enlarge
+                    {t.results.enlarge}
                   </Button>
                 </div>
 
                 <aside className="pointer-light-box min-w-0 rounded-lg border border-border bg-card p-6 sm:p-8">
-                  <p className="eyebrow">Case Study</p>
-                  <h3 className="mt-3 text-2xl font-semibold leading-tight">Meta Ads Campaign — Full Breakdown</h3>
+                  <p className="eyebrow">{t.results.caseStudy.eyebrow}</p>
+                  <h3 className="mt-3 text-2xl font-semibold leading-tight">{t.results.caseStudy.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    Strategy, targeting, creatives, results and learnings.
+                    {t.results.caseStudy.body}
                   </p>
                   <a
                     href="/Ulugbek-Kalandarov-Meta-Ads-Case-Study.pdf"
@@ -286,9 +233,9 @@ function Index() {
                     className="mt-6 inline-flex items-center gap-2 rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
                   >
                     <Download className="size-4" aria-hidden="true" />
-                    Download Case Study
+                    {t.results.caseStudy.button}
                   </a>
-                  <p className="mt-3 text-xs text-muted-foreground">PDF document</p>
+                  <p className="mt-3 text-xs text-muted-foreground">{t.results.caseStudy.fileType}</p>
                 </aside>
               </div>
             </Reveal>
@@ -297,7 +244,7 @@ function Index() {
               <dialog
                 ref={resultsDialog}
                 aria-modal="true"
-                aria-label="Meta Ads campaign performance screenshot"
+                aria-label={t.results.viewerAria}
                 onCancel={(event) => { event.preventDefault(); resultsViewer.close(); }}
                 onClick={(event) => { if (event.target === event.currentTarget) resultsViewer.close(); }}
                 data-closing={resultsViewer.closing}
@@ -307,14 +254,14 @@ function Index() {
                   <Button variant="ghost" size="icon"
                     type="button"
                     onClick={resultsViewer.close}
-                    aria-label="Close enlarged screenshot"
+                    aria-label={t.results.closeViewer}
                     className="absolute -top-12 right-0 inline-flex size-10 items-center justify-center rounded-full border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10"
                   >
                     <X className="size-5" aria-hidden="true" />
                   </Button>
                   <img
                     src={campaignsRecords.url}
-                    alt="Meta Ads Manager campaign performance dashboard showing campaign results"
+                    alt={t.results.screenshotAlt}
                     width={1920}
                     height={880}
                     className="max-h-[85vh] w-full rounded-lg object-contain"
@@ -329,12 +276,12 @@ function Index() {
         <section id="experience" className="border-t border-border bg-surface py-20 md:py-28">
           <div className="mx-auto max-w-4xl px-5 md:px-8">
             <Reveal>
-              <p className="eyebrow">Experience</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Where I&apos;ve worked</h2>
+              <p className="eyebrow">{t.experience.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{t.experience.heading}</h2>
             </Reveal>
 
             <ExperienceTimeline>
-              {EXPERIENCE.map((e, i) => (
+              {t.experience.jobs.map((e, i) => (
                 <Reveal key={e.org} delay={i * 80} as="li">
                   <div className="relative pb-10 pl-6 last:pb-0 md:pl-8">
                     <span className="timeline-dot absolute -left-[5px] top-1.5 size-2.5 rounded-full bg-primary" aria-hidden="true" />
@@ -360,7 +307,7 @@ function Index() {
 
             <Reveal className="mt-2">
               <p className="text-xs text-muted-foreground/80">
-                Also founder of Asia Ballers, a personal sports media project.
+                {t.experience.asiaBallers}
               </p>
             </Reveal>
           </div>
@@ -372,11 +319,11 @@ function Index() {
         <section className="border-t border-border py-20 md:py-24">
           <div className="mx-auto max-w-6xl px-5 md:px-8">
             <Reveal>
-              <p className="eyebrow">Skills</p>
+              <p className="eyebrow">{t.skills.eyebrow}</p>
               <ul data-skills className="mt-6 flex flex-wrap gap-2.5">
-                {SKILLS.map((s) => (
+                {t.skills.items.map((s, i) => (
                   <li
-                    key={s}
+                    key={i}
                     className="rounded-[6px] border border-border bg-card px-4 py-2 text-sm font-medium text-foreground"
                   >
                     {s}
@@ -386,11 +333,10 @@ function Index() {
             </Reveal>
 
             <Reveal delay={80} className="mt-14 border-t border-border pt-10">
-              <p className="eyebrow">Education</p>
+              <p className="eyebrow">{t.education.eyebrow}</p>
               <p className="mt-3 text-base text-foreground">
-                <span className="font-semibold">Inha University</span> — Bachelor&apos;s Degree, International
-                Business and Trade{" "}
-                <span className="text-muted-foreground">(Sep 2023 — Present)</span>
+                <span className="font-semibold">{t.education.school}</span> — {t.education.degree}{" "}
+                <span className="text-muted-foreground">{t.education.period}</span>
               </p>
             </Reveal>
           </div>
@@ -403,14 +349,14 @@ function Index() {
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
           <p>© {new Date().getFullYear()} Ulugbek Kalandarov</p>
           <div className="flex gap-5">
-            <a href="mailto:kbulugbek@gmail.com" className="hover:text-link">Email</a>
+            <a href="mailto:kbulugbek@gmail.com" className="hover:text-link">{t.footer.email}</a>
             <a
               href="https://linkedin.com/in/ulugbek-kalandarov"
               target="_blank"
               rel="noreferrer"
               className="hover:text-link"
             >
-              LinkedIn
+              {t.footer.linkedin}
             </a>
           </div>
         </div>

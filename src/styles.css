@@ -152,6 +152,11 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+html:lang(ko) {
+  --font-display: "Noto Serif KR", serif;
+  --font-sans: "Noto Sans KR", sans-serif;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
