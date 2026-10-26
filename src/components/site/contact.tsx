@@ -5,6 +5,7 @@ import { Reveal } from "./reveal";
 import { useLanguage } from "@/i18n/provider";
 import { translations } from "@/i18n/translations";
 import { englishProjectType, fillText } from "@/i18n/language";
+import { trackEvent } from "@/lib/analytics";
 
 const EMAIL = "kbulugbek@gmail.com";
 const WEB3FORMS_KEY = "3c6dbbaf-5947-469b-91bf-793165cbcf30";
@@ -45,6 +46,7 @@ export function Contact() {
       });
       const json = await res.json().catch(() => null);
       if (!json || json.success !== true) throw new Error("failed");
+      trackEvent("contact_submit", lang);
       setFirstName(name.split(/\s+/)[0] ?? "");
       form.reset();
       setStatus("sent");
@@ -76,7 +78,7 @@ export function Contact() {
             <div>
               <dt className={label}>{t.contact.emailLabel}</dt>
               <dd>
-                <a href={`mailto:${EMAIL}`} className="font-medium text-foreground hover:text-link">
+                <a href={`mailto:${EMAIL}`} onClick={() => trackEvent("email_click", lang)} className="font-medium text-foreground hover:text-link">
                   {EMAIL}
                 </a>
               </dd>
@@ -84,7 +86,7 @@ export function Contact() {
             <div>
               <dt className={label}>{t.contact.phoneLabel}</dt>
               <dd>
-                <a href="tel:+821027121929" className="font-medium text-foreground hover:text-link">
+                <a href="tel:+821027121929" onClick={() => trackEvent("phone_click", lang)} className="font-medium text-foreground hover:text-link">
                   +82-10-2712-1929
                 </a>
               </dd>
@@ -94,6 +96,7 @@ export function Contact() {
               <dd>
                 <a
                   href="https://linkedin.com/in/ulugbek-kalandarov"
+                  onClick={() => trackEvent("linkedin_click", lang)}
                   target="_blank"
                   rel="noreferrer"
                   className="font-medium text-foreground hover:text-link"
@@ -121,7 +124,7 @@ export function Contact() {
               </p>
               <p className="mt-4 text-sm text-muted-foreground">
                 {t.contact.success.urgent.split("{email}")[0]}
-                <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">
+                <a href={`mailto:${EMAIL}`} onClick={() => trackEvent("email_click", lang)} className="font-medium text-link hover:text-foreground">
                   {EMAIL}
                 </a>
                 {t.contact.success.urgent.split("{email}")[1]}
@@ -177,7 +180,7 @@ export function Contact() {
               {status === "error" ? (
                 <p className="mt-4 text-sm text-destructive" role="alert">
                   {t.contact.form.error.split("{email}")[0]}
-                  <a href={`mailto:${EMAIL}`} className="font-medium text-link hover:text-foreground">{EMAIL}</a>{t.contact.form.error.split("{email}")[1]}
+                   <a href={`mailto:${EMAIL}`} onClick={() => trackEvent("email_click", lang)} className="font-medium text-link hover:text-foreground">{EMAIL}</a>{t.contact.form.error.split("{email}")[1]}
                 </p>
               ) : null}
             </form>
