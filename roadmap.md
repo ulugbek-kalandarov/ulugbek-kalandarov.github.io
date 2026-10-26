@@ -1,3 +1,9 @@
+# Google Analytics 4
+- [ ] Load saved Measurement ID in the root head only on the two live hosts
+- [ ] Track requested actions with current language without changing language behavior
+- [ ] Verify live-host gating, event payloads and blocked-script resilience
+- [ ] Configure GitHub Pages deployment to use its Measurement ID secret
+
 # Languages
 - [x] Wire exact translations across all page text and accessible labels
 - [x] Add remembered and shareable header language selection and Korean fonts

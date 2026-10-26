@@ -15,6 +15,7 @@ import { resolveLanguage } from "@/i18n/language";
 import { LanguageProvider, useLanguage } from "@/i18n/provider";
 import headshot from "@/assets/headshot.jpg.asset.json";
 import campaignsRecords from "@/assets/campaigns-records.png.asset.json";
+import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): { lang?: string | undefined } => ({ lang: typeof search['lang'] === "string" ? search['lang'] : undefined }),
@@ -43,7 +44,7 @@ function LocalizedIndex() {
 }
 
 function Index() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const SERVICES = t.services.items.map((item, i) => ({ ...item, icon: SERVICE_ICONS[i] ?? BarChart3 }));
   const STATS = t.results.stats.map((label, i) => ({ label, value: STAT_VALUES[i] ?? "" }));
   const resultsViewer = useViewerTransition();
@@ -113,6 +114,7 @@ function Index() {
                 </a>
                 <a
                   href="/Ulugbek-Kalandarov-CV.pdf"
+                  onClick={() => trackEvent("cv_download", lang)}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-[6px] border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-link"
@@ -228,6 +230,7 @@ function Index() {
                   </p>
                   <a
                     href="/Ulugbek-Kalandarov-Meta-Ads-Case-Study.pdf"
+                    onClick={() => trackEvent("case_study_download", lang)}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-6 inline-flex items-center gap-2 rounded-[6px] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-deep"
@@ -349,9 +352,10 @@ function Index() {
         <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between md:px-8">
           <p>© {new Date().getFullYear()} Ulugbek Kalandarov</p>
           <div className="flex gap-5">
-            <a href="mailto:kbulugbek@gmail.com" className="hover:text-link">{t.footer.email}</a>
+            <a href="mailto:kbulugbek@gmail.com" onClick={() => trackEvent("email_click", lang)} className="hover:text-link">{t.footer.email}</a>
             <a
               href="https://linkedin.com/in/ulugbek-kalandarov"
+              onClick={() => trackEvent("linkedin_click", lang)}
               target="_blank"
               rel="noreferrer"
               className="hover:text-link"

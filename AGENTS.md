@@ -15,3 +15,4 @@
 - Use native dialog and details elements for gallery focus management and case-study disclosure; this preserves keyboard accessibility without extra state libraries.
 - Keep the fixed page background in its own aria-hidden site component with scoped CSS and semantic color tokens; paint section base layers beneath it and content above it to preserve readability without changing base colors.
 - Keep viewer transition lifetimes, photo crossfades and pointer tracking in the isolated interaction-details module; retain native dialog focus trapping through exit animations and animate only transform/opacity overlays for paint-changing effects.
+- Keep optional GA4 initialization and event dispatch in the analytics module with an exact live-host allowlist; expose only the public Measurement ID through the root loader so SSR and GitHub Pages static HTML share configuration without browser secret access.

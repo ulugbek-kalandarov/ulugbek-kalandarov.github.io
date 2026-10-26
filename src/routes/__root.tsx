@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { initializeAnalytics } from "../lib/analytics";
+import { getAnalyticsMeasurementId } from "../lib/analytics.functions";
 
 function NotFoundComponent() {
   return (
@@ -74,6 +76,8 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staleTime: Infinity,
+  loader: async () => ({ measurementId: await getAnalyticsMeasurementId().catch(() => null) }),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -136,6 +140,8 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { measurementId } = Route.useLoaderData();
+  useEffect(() => { initializeAnalytics(measurementId); }, [measurementId]);
 
   return (
     <QueryClientProvider client={queryClient}>
