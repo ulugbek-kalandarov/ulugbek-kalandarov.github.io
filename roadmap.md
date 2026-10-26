@@ -1,9 +1,8 @@
-# Portfolio interactions
 # Languages
-- [ ] Wire exact translations across all page text and accessible labels
-- [ ] Add remembered and shareable header language selection and Korean fonts
-- [ ] Send English project types and visitor language in contact emails
-- [ ] Verify all languages, mobile layout and contact flow
+- [x] Wire exact translations across all page text and accessible labels
+- [x] Add remembered and shareable header language selection and Korean fonts
+- [x] Send English project types and visitor language in contact emails
+- [x] Verify all languages, mobile layout and contact flow with intercepted submissions (no real email sent)
 
 # Portfolio interactions
 - [x] Hero entrance and one-time stats counting
